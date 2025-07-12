@@ -7,6 +7,7 @@ set -e
 OUTPUT_DIR="dist"
 SOURCES_FILE="sources.list"
 TEMP_DIR="temp_work"
+PROCESSED_COUNT=0 # Счетчик обработанных правил
 
 # --- ОЧИСТКА И ПОДГОТОВКА ---
 echo "--- Cleaning up old files ---"
@@ -63,16 +64,23 @@ while IFS= read -r url; do
     echo "Generated temporary YAML at $temp_yaml"
 
     # Выполняем конвертацию с помощью mihomo
-    # Убедимся, что mihomo находится в PATH или используем полный путь
     mihomo convert-ruleset domain yaml "$temp_yaml" "$OUTPUT_DIR/$rule_name.mrs"
 
     echo "Successfully converted to $OUTPUT_DIR/$rule_name.mrs"
     echo "-------------------------------------"
+    PROCESSED_COUNT=$((PROCESSED_COUNT + 1))
 
 done < "$SOURCES_FILE"
+
+# --- ФИНАЛЬНАЯ ПРОВЕРКА ---
+echo "--- Validating build results ---"
+if [ "$PROCESSED_COUNT" -eq 0 ]; then
+    echo "Error: No rules were processed. Check if '$SOURCES_FILE' is empty or contains only comments."
+    exit 1
+fi
 
 # --- ФИНАЛЬНАЯ ОЧИСТКА ---
 echo "--- Cleaning up temporary files ---"
 rm -rf "$TEMP_DIR"
 
-echo "Build process finished successfully."
+echo "Build process finished successfully. Total rules processed: $PROCESSED_COUNT."
