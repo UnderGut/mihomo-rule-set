@@ -17,19 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y jq
-
+      # --- НАДЕЖНЫЙ МЕТОД УСТАНОВКИ ---
+      # Скачиваем и устанавливаем конкретную версию, чтобы избежать ошибок
       - name: Download and install Mihomo
         run: |
-          # Скачиваем последнюю версию mihomo для linux
-          # ИСПРАВЛЕННАЯ СТРОКА НИЖЕ (добавлены символы)
-          LATEST_URL=$(curl -sL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r '.assets | select(.name | test("mihomo-linux-amd64-.*\\.gz$")) |.browser_download_url')
-          curl -sL -o mihomo.gz "$LATEST_URL"
-          gunzip mihomo.gz
-          chmod +x mihomo
-          # Перемещаем исполняемый файл в системный каталог, чтобы он был доступен везде
-          sudo mv mihomo /usr/local/bin/
+          curl -L -o mihomo.deb https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
+          sudo apt-get update
+          sudo apt-get install -y./mihomo.deb
 
       - name: Run build script
         run: bash./build.sh
