@@ -17,15 +17,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download and install Mihomo
-        run: |
-          # Скачиваем последнюю версию mihomo для linux
-          LATEST_URL=$(curl -sL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
-            | jq -r '.assets[] | select(.name | test("mihomo-linux-amd64-.*\\.gz$")) | .browser_download_url')
-          curl -sL -o mihomo.gz "$LATEST_URL"
-          gunzip mihomo.gz
-          chmod +x mihomo
-          sudo mv mihomo /usr/local/bin/
+- name: Download and install Mihomo
+  run: |
+    echo "⬇️ Скачиваем .deb пакет Mihomo..."
+    curl -L -o mihomo.deb \
+      https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
+
+    echo "📦 Устанавливаем..."
+    sudo apt update
+    sudo apt install -y ./mihomo.deb
+
 
       - name: Run build script
         run: bash ./build.sh
