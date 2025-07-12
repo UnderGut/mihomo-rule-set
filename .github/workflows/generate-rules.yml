@@ -17,26 +17,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Download and install Mihomo
         run: |
-          echo "⬇️ Скачиваем .deb пакет Mihomo..."
-          curl -L -o mihomo.deb \
-            https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
-        
-          echo "📦 Устанавливаем..."
-          sudo apt-get update
-          sudo apt-get install -y ./mihomo.deb
-
-      # --- КЛЮЧЕВОЙ ШАГ ДЛЯ ИСПРАВЛЕНИЯ ОШИБКИ ---
-      # Этот шаг удаляет символы \r (CR) и делает скрипт исполняемым.
-      - name: Fix line endings and make script executable
-        run: |
-          sed -i 's/\r$//' ./build.sh
-          chmod +x ./build.sh
+          # Скачиваем последнюю версию mihomo для linux
+          LATEST_URL=$(curl -sL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r '.assets | select(.name | test("mihomo-linux-amd64-.*\\.gz$")) |.browser_download_url')
+          curl -sL -o mihomo.gz "$LATEST_URL"
+          gunzip mihomo.gz
+          chmod +x mihomo
+          # Перемещаем исполняемый файл в системный каталог, чтобы он был доступен везде
+          sudo mv mihomo /usr/local/bin/
 
       - name: Run build script
-        # Запускаем скрипт напрямую, так как мы сделали его исполняемым
-        run: ./build.sh
+        run: bash./build.sh
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
