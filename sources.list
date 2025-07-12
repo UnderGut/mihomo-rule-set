@@ -1,1 +1,3 @@
-https://ruleset.skk.moe/Clash/domainset/cdn.txt
+cdn,https://ruleset.skk.moe/Clash/domainset/cdn.txt
+test,cdn,https://ruleset.skk.moe/Clash/domainset/cdn.txt
+cdn,https://ruleset.skk.moe/Clash/domainset/cdn.txt
