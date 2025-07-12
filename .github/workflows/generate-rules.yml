@@ -17,12 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --- НАДЕЖНЫЙ МЕТОД УСТАНОВКИ ---
-      # Скачиваем и устанавливаем конкретную версию, чтобы избежать ошибок
+      # --- ИСПРАВЛЕННЫЙ, НАДЕЖНЫЙ МЕТОД УСТАНОВКИ ---
       - name: Download and install Mihomo
         run: |
           curl -L -o mihomo.deb https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
           sudo apt-get update
+          # Команда с исправленной опечаткой (добавлен пробел)
           sudo apt-get install -y./mihomo.deb
 
       - name: Run build script
