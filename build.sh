@@ -25,8 +25,23 @@ if [ ! -f "$SOURCES_FILE" ]; then
     exit 1
 fi
 
+# --- ОТЛАДКА ---
+# Показываем содержимое файла, чтобы убедиться, что он не пуст
+echo "--- Debug: Content of '$SOURCES_FILE' ---"
+cat "$SOURCES_FILE"
+echo "--- End of content ---"
+# Показываем содержимое в виде, удобном для поиска невидимых символов (CR, BOM и т.д.)
+echo "--- Debug: Hexdump of '$SOURCES_FILE' ---"
+od -c "$SOURCES_FILE" || echo "od command failed, continuing..."
+echo "--- End of hexdump ---"
+
+
 # Читаем файл с источниками построчно
-while IFS= read -r url; do
+# Эта конструкция надежно читает файл, даже если в конце нет символа новой строки
+while IFS= read -r url || [[ -n "$url" ]]; do
+    # Принудительно удаляем символ возврата каретки (CR), который может появиться из-за Windows-окончаний строк
+    url=$(echo "$url" | tr -d '\r')
+
     # Пропускаем пустые строки и строки, начинающиеся с #
     if [[ -z "$url" || "$url" == \#* ]]; then
         continue
@@ -75,7 +90,7 @@ done < "$SOURCES_FILE"
 # --- ФИНАЛЬНАЯ ПРОВЕРКА ---
 echo "--- Validating build results ---"
 if [ "$PROCESSED_COUNT" -eq 0 ]; then
-    echo "Error: No rules were processed. Check if '$SOURCES_FILE' is empty or contains only comments."
+    echo "Error: No rules were processed. Check if '$SOURCES_FILE' is empty or contains only comments/invalid characters."
     exit 1
 fi
 
