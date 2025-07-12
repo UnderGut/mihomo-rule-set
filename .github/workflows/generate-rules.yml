@@ -22,14 +22,21 @@ jobs:
           echo "⬇️ Скачиваем .deb пакет Mihomo..."
           curl -L -o mihomo.deb \
             https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
-      
+        
           echo "📦 Устанавливаем..."
-          sudo apt update
-          sudo apt install -y ./mihomo.deb
+          sudo apt-get update
+          sudo apt-get install -y ./mihomo.deb
 
+      # --- КЛЮЧЕВОЙ ШАГ ДЛЯ ИСПРАВЛЕНИЯ ОШИБКИ ---
+      # Этот шаг удаляет символы \r (CR) и делает скрипт исполняемым.
+      - name: Fix line endings and make script executable
+        run: |
+          sed -i 's/\r$//' ./build.sh
+          chmod +x ./build.sh
 
       - name: Run build script
-        run: bash ./build.sh
+        # Запускаем скрипт напрямую, так как мы сделали его исполняемым
+        run: ./build.sh
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
