@@ -1,20 +1,25 @@
 #!/bin/bash
 set -e
 
+# --- КОНФИГУРАЦИЯ ---
 OUTPUT_DIR="dist"
 SOURCES_FILE="sources.list"
 TEMP_DIR="temp_work"
 
+# --- ПОДГОТОВКА ---
 echo "--- Cleaning up old files ---"
 rm -rf "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 rm -rf "$TEMP_DIR"
 mkdir -p "$TEMP_DIR"
 
-if [ ! -f "$SOURCES_FILE" ]; then
-    echo "Error: Sources file not found at '$SOURCES_FILE'!"
+# Проверяем, что файл с источниками существует
+if [[ ! -f "$SOURCES_FILE" ]]; then
+    echo "❌ Error: Sources file not found at '$SOURCES_FILE'!"
     exit 1
 fi
+
+# --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
 
 # Проверка, является ли строка IP/CIDR
 is_ipcidr() {
@@ -22,50 +27,29 @@ is_ipcidr() {
     [[ $line =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}(/[0-9]{1,2})?$ ]]
 }
 
-# Определение типа внутри .mrs или .yaml файла с учетом PROCESS-NAME
+# Определение типа .mrs или .yaml файла
 detect_mrs_type() {
-    local mrs_file="$1"
+    local file_to_check="$1"
+    local has_domain=0 has_ipcidr=0 has_process=0
 
-    local has_domain=0
-    local has_ipcidr=0
-    local has_process=0
-
-    if grep -q "domain:" "$mrs_file"; then
-        has_domain=1
-    fi
-
-    if grep -q "ipcidr:" "$mrs_file"; then
-        has_ipcidr=1
-    fi
-
-    if grep -q '^  - PROCESS-NAME,' "$mrs_file"; then
-        has_process=1
-    fi
+    grep -q "domain:" "$file_to_check" && has_domain=1
+    grep -q "ipcidr:" "$file_to_check" && has_ipcidr=1
+    grep -q '^[[:space:]]*- PROCESS-NAME,' "$file_to_check" && has_process=1
 
     local count=$((has_domain + has_ipcidr + has_process))
 
-    if [ $count -eq 1 ]; then
-        if [ $has_domain -eq 1 ]; then
-            echo "domain"
-            return
-        elif [ $has_ipcidr -eq 1 ]; then
-            echo "ipcidr"
-            return
-        else
-            echo "process-name"
-            return
-        fi
-    fi
-
     if [ $count -gt 1 ]; then
         echo "mixed"
-        return
+    elif [ $count -eq 1 ]; then
+        [ $has_domain -eq 1 ] && echo "domain"
+        [ $has_ipcidr -eq 1 ] && echo "ipcidr"
+        [ $has_process -eq 1 ] && echo "process-name"
+    else
+        echo "unknown"
     fi
-
-    echo ""
 }
 
-# Обработка обычных текстовых файлов с разделением на IP, domain и process-name
+# Обработка "сырых" текстовых файлов
 process_plain_file() {
     local filepath="$1"
     local rule_name="$2"
@@ -94,86 +78,62 @@ process_plain_file() {
     mkdir -p "$OUTPUT_DIR/$subdir"
 
     if [ -s "$ip_file" ]; then
-        echo "Converting IP list for $rule_name"
+        echo "  -> Converting IP list for $rule_name..."
         mihomo convert-ruleset ipcidr text "$ip_file" "$OUTPUT_DIR/$subdir/${rule_name}_ip.mrs"
-        echo "✅ $rule_name IP converted."
+        echo "  ✅ $rule_name IP list converted."
     fi
 
     if [ -s "$domain_file" ]; then
-        echo "Converting domain list for $rule_name"
+        echo "  -> Converting domain list for $rule_name..."
         local temp_yaml="$TEMP_DIR/${rule_name}_domain.yaml"
         echo "payload:" > "$temp_yaml"
-        grep -v -E '^(#|$|!)' "$domain_file" | sed "s/.*/  - '&'/" >> "$temp_yaml"
+        sed "s/.*/  - '&'/" "$domain_file" >> "$temp_yaml"
         mihomo convert-ruleset domain yaml "$temp_yaml" "$OUTPUT_DIR/$subdir/${rule_name}_domain.mrs"
-        echo "✅ $rule_name domain converted."
+        echo "  ✅ $rule_name domain list converted."
     fi
 
     if [ -s "$process_file" ]; then
-        echo "Converting process-name list for $rule_name"
+        echo "  -> Converting process-name list for $rule_name..."
         local temp_yaml="$TEMP_DIR/${rule_name}_process.yaml"
         echo "payload:" > "$temp_yaml"
-        grep -v -E '^(#|$|!)' "$process_file" | sed "s/.*/  - '&'/" >> "$temp_yaml"
-        mihomo convert-ruleset process-name yaml "$temp_yaml" "$OUTPUT_DIR/$subdir/${rule_name}_process.mrs"
-        echo "✅ $rule_name process-name converted."
+        # Убираем "PROCESS-NAME," и добавляем префикс обратно в формате mihomo
+        sed 's/^PROCESS-NAME,//' "$process_file" | sed "s/.*/  - PROCESS-NAME,&/" >> "$temp_yaml"
+        mihomo convert-ruleset logical yaml "$temp_yaml" "$OUTPUT_DIR/$subdir/${rule_name}_process.mrs"
+        echo "  ✅ $rule_name process-name list converted."
     fi
 }
 
-# Сохранение .mrs или .yaml файла с типом и подпапкой
-save_mrs_with_type() {
-    local src="$1"
-    local base_name="$2"
-    local type="$3"
-    local subdir="$4"
-    local ext="$5"
-
-    if [[ -z "$type" ]]; then
-        echo "⚠️ Type unknown, skipping saving $base_name.$ext"
-        return
-    fi
-
-    mkdir -p "$OUTPUT_DIR/$subdir"
-    cp "$src" "$OUTPUT_DIR/$subdir/${base_name}_${type}.mrs"
-    echo "Saved $base_name as ${base_name}_${type}.mrs in $subdir"
-}
+# --- ОСНОВНОЙ ЦИКЛ ---
 
 echo "--- Starting build process ---"
 
-while IFS= read -r line; do
-    [[ -z "$line" || "$line" == \#* ]] && continue
-
-    url="$line"
-
-    # Выделяем путь после raw/ или main/ для подпапок
-    if [[ "$url" =~ github.com/.+/.+/(raw|blob)/.+/(.+) ]]; then
-        path_part="${BASH_REMATCH[2]}"
-    else
-        path_part=""
-    fi
+while IFS= read -r url; do
+    [[ -z "$url" || "$url" == \#* ]] && continue
 
     source_filename=$(basename "$url")
     rule_name="${source_filename%.*}"
-    subdir=$(dirname "$path_part")
 
-    echo "Processing: $rule_name from $url"
-    echo "Target subdirectory: $subdir"
+    if [[ "$url" =~ github\.com/[^/]+/[^/]+/(raw|blob)/[^/]+/(.+) ]]; then
+        path_part="${BASH_REMATCH[2]}"
+        subdir=$(dirname "$path_part")
+        [ "$subdir" == "." ] && subdir="general"
+    else
+        subdir="uncategorized"
+    fi
+
+    echo "Processing: $rule_name"
+    echo "  -> Target subdirectory: $subdir"
 
     curl -L -s -o "$TEMP_DIR/$source_filename" "$url"
 
     ext="${source_filename##*.}"
 
     if [[ "$ext" == "mrs" || "$ext" == "yaml" ]]; then
+        echo "  -> Pre-compiled file detected. Analyzing type..."
         mrs_type=$(detect_mrs_type "$TEMP_DIR/$source_filename")
-        echo "Detected type: $mrs_type"
-
-        if [[ "$mrs_type" == "mixed" ]]; then
-            mkdir -p "$OUTPUT_DIR/$subdir"
-            cp "$TEMP_DIR/$source_filename" "$OUTPUT_DIR/$subdir/${rule_name}_mixed.mrs"
-            echo "Saved mixed type file"
-        elif [[ -n "$mrs_type" ]]; then
-            save_mrs_with_type "$TEMP_DIR/$source_filename" "$rule_name" "$mrs_type" "$subdir" "$ext"
-        else
-            echo "⚠️ Unknown file type for $rule_name, skipping save"
-        fi
+        mkdir -p "$OUTPUT_DIR/$subdir"
+        cp "$TEMP_DIR/$source_filename" "$OUTPUT_DIR/$subdir/${rule_name}_${mrs_type}.mrs"
+        echo "  ✅ Saved as ${rule_name}_${mrs_type}.mrs"
     else
         process_plain_file "$TEMP_DIR/$source_filename" "$rule_name" "$subdir"
     fi
