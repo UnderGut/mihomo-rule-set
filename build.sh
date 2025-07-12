@@ -53,8 +53,8 @@ while IFS= read -r url; do
 
     # Для .txt или .lst файлов
     if [[ "$extension" == "txt" || "$extension" == "lst" ]]; then
-        # Удаляем комментарии и пустые строки из исходного файла
-        grep -v -E '^(#|$)' "$TEMP_DIR/$source_filename" | sed "s/.*/  - '&'/" >> "$temp_yaml"
+        # Удаляем комментарии и пустые строки из исходного файла и форматируем для YAML
+        grep -v -E '^(#|$|!)' "$TEMP_DIR/$source_filename" | sed "s/.*/  - '&'/" >> "$temp_yaml"
     else
         echo "Unsupported file type: $extension for rule $rule_name. Skipping."
         continue
@@ -63,6 +63,7 @@ while IFS= read -r url; do
     echo "Generated temporary YAML at $temp_yaml"
 
     # Выполняем конвертацию с помощью mihomo
+    # Убедимся, что mihomo находится в PATH или используем полный путь
     mihomo convert-ruleset domain yaml "$temp_yaml" "$OUTPUT_DIR/$rule_name.mrs"
 
     echo "Successfully converted to $OUTPUT_DIR/$rule_name.mrs"
