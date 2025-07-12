@@ -9,8 +9,6 @@ payload:
  - DOMAIN-SUFFIX,ilivedata.com
  - DOMAIN-SUFFIX,frankfurter.dev
  - DOMAIN-SUFFIX,jmp.blue
- - DOMAIN-KEYWORD,kingsgroupgames
- - DOMAIN-KEYWORD,bible-api
  - DOMAIN-SUFFIX,habr.com
  - DOMAIN-SUFFIX,kemono.su
  - DOMAIN-SUFFIX,jut.su
@@ -23,6 +21,8 @@ payload:
  - DOMAIN-SUFFIX,novayagazeta.ru
  - DOMAIN-SUFFIX,moscowtimes.ru
  - DOMAIN-SUFFIX,libria.fun
+ - DOMAIN-KEYWORD,kingsgroupgames
+ - DOMAIN-KEYWORD,bible-api
  - DOMAIN-KEYWORD,animego
  - DOMAIN-KEYWORD,yummyanime
  - DOMAIN-KEYWORD,yummy-anime
