@@ -1,3 +1,3 @@
 cdn,https://ruleset.skk.moe/Clash/domainset/cdn.txt
-game,https://ruleset.skk.moe/List/domainset/game-download.conf
-utilities,https://ruleset.skk.moe/List/domainset/speedtest.conf
+game,https://github.com/UnderGut/mihomo-rule-set/blob/main/rule-set/game-download
+utilities,https://github.com/UnderGut/mihomo-rule-set/blob/main/rule-set/speedtest.yaml
