@@ -20,18 +20,18 @@ jobs:
       - name: Download and install Mihomo
         run: |
           # Скачиваем последнюю версию mihomo для linux
-          LATEST_URL=$(curl -sL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r '.assets | select(.name | test("mihomo-linux-amd64-.*\\.gz$")) |.browser_download_url')
+          LATEST_URL=$(curl -sL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
+            | jq -r '.assets[] | select(.name | test("mihomo-linux-amd64-.*\\.gz$")) | .browser_download_url')
           curl -sL -o mihomo.gz "$LATEST_URL"
           gunzip mihomo.gz
           chmod +x mihomo
-          # Перемещаем исполняемый файл в системный каталог, чтобы он был доступен везде
           sudo mv mihomo /usr/local/bin/
 
       - name: Run build script
-        run: bash./build.sh
+        run: bash ./build.sh
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Auto-update mihomo rule sets"
-          file_pattern: dist/*.mrs
+          file_patte_
