@@ -22,7 +22,7 @@ is_ipcidr() {
     [[ $line =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}(/[0-9]{1,2})?$ ]]
 }
 
-# Определение типа внутри .mrs файла с учетом PROCESS-NAME
+# Определение типа внутри .mrs или .yaml файла с учетом PROCESS-NAME
 detect_mrs_type() {
     local mrs_file="$1"
 
@@ -118,15 +118,16 @@ process_plain_file() {
     fi
 }
 
-# Сохранение .mrs файла с типом и подпапкой
+# Сохранение .mrs или .yaml файла с типом и подпапкой
 save_mrs_with_type() {
     local src="$1"
     local base_name="$2"
     local type="$3"
     local subdir="$4"
+    local ext="$5"
 
     if [[ -z "$type" ]]; then
-        echo "⚠️ Type unknown, skipping saving $base_name.mrs"
+        echo "⚠️ Type unknown, skipping saving $base_name.$ext"
         return
     fi
 
@@ -143,7 +144,6 @@ while IFS= read -r line; do
     url="$line"
 
     # Выделяем путь после raw/ или main/ для подпапок
-    # Например: https://github.com/UnderGut/rule-set/raw/main/clash/ru-inline.yaml
     if [[ "$url" =~ github.com/.+/.+/(raw|blob)/.+/(.+) ]]; then
         path_part="${BASH_REMATCH[2]}"
     else
@@ -161,20 +161,19 @@ while IFS= read -r line; do
 
     ext="${source_filename##*.}"
 
-    if [[ "$ext" == "mrs" ]]; then
+    if [[ "$ext" == "mrs" || "$ext" == "yaml" ]]; then
         mrs_type=$(detect_mrs_type "$TEMP_DIR/$source_filename")
-        echo "Detected .mrs type: $mrs_type"
+        echo "Detected type: $mrs_type"
 
         if [[ "$mrs_type" == "mixed" ]]; then
             mkdir -p "$OUTPUT_DIR/$subdir"
             cp "$TEMP_DIR/$source_filename" "$OUTPUT_DIR/$subdir/${rule_name}_mixed.mrs"
             echo "Saved mixed type file"
         elif [[ -n "$mrs_type" ]]; then
-            save_mrs_with_type "$TEMP_DIR/$source_filename" "$rule_name" "$mrs_type" "$subdir"
+            save_mrs_with_type "$TEMP_DIR/$source_filename" "$rule_name" "$mrs_type" "$subdir" "$ext"
         else
-            echo "⚠️ Unknown .mrs file type for $rule_name, skipping save"
+            echo "⚠️ Unknown file type for $rule_name, skipping save"
         fi
-
     else
         process_plain_file "$TEMP_DIR/$source_filename" "$rule_name" "$subdir"
     fi
