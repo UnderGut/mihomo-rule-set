@@ -32,18 +32,28 @@ detect_mrs_type() {
     local file_to_check="$1"
     local has_domain=0 has_ipcidr=0 has_process=0
 
+    # Проверяем явные ключи
     grep -q "domain:" "$file_to_check" && has_domain=1
     grep -q "ipcidr:" "$file_to_check" && has_ipcidr=1
     grep -q '^[[:space:]]*- PROCESS-NAME,' "$file_to_check" && has_process=1
+
+    # Дополнительно ищем строки с доменами в payload
+    if grep -q '^[[:space:]]*-\ DOMAIN-' "$file_to_check"; then
+        has_domain=1
+    fi
 
     local count=$((has_domain + has_ipcidr + has_process))
 
     if [ $count -gt 1 ]; then
         echo "mixed"
     elif [ $count -eq 1 ]; then
-        [ $has_domain -eq 1 ] && echo "domain"
-        [ $has_ipcidr -eq 1 ] && echo "ipcidr"
-        [ $has_process -eq 1 ] && echo "process-name"
+        if [ $has_domain -eq 1 ]; then
+            echo "domain"
+        elif [ $has_ipcidr -eq 1 ]; then
+            echo "ipcidr"
+        else
+            echo "process-name"
+        fi
     else
         echo "unknown"
     fi
@@ -96,7 +106,6 @@ process_plain_file() {
         echo "  -> Converting process-name list for $rule_name..."
         local temp_yaml="$TEMP_DIR/${rule_name}_process.yaml"
         echo "payload:" > "$temp_yaml"
-        # Убираем "PROCESS-NAME," и добавляем префикс обратно в формате mihomo
         sed 's/^PROCESS-NAME,//' "$process_file" | sed "s/.*/  - PROCESS-NAME,&/" >> "$temp_yaml"
         mihomo convert-ruleset logical yaml "$temp_yaml" "$OUTPUT_DIR/$subdir/${rule_name}_process.mrs"
         echo "  ✅ $rule_name process-name list converted."
@@ -131,6 +140,9 @@ while IFS= read -r url; do
     if [[ "$ext" == "mrs" || "$ext" == "yaml" ]]; then
         echo "  -> Pre-compiled file detected. Analyzing type..."
         mrs_type=$(detect_mrs_type "$TEMP_DIR/$source_filename")
+        if [[ "$mrs_type" == "unknown" ]]; then
+            mrs_type="domain"
+        fi
         mkdir -p "$OUTPUT_DIR/$subdir"
         cp "$TEMP_DIR/$source_filename" "$OUTPUT_DIR/$subdir/${rule_name}_${mrs_type}.mrs"
         echo "  ✅ Saved as ${rule_name}_${mrs_type}.mrs"
