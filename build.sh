@@ -151,7 +151,18 @@ while IFS= read -r line; do
     # Тогда хотим получить "clash" и дальше путь к файлу
 
     # Используем для этого регулярку с grep -Po
-    path_part=$(echo "$url" | grep -Po '(?<=github.com/[^/]+/[^/]+/(raw|blob)/[^/]+/).+')
+if [[ "$url" =~ github.com/.+/.+/(raw|blob)/.+/.+ ]]; then
+    tmp="${url#*github.com/}"
+    tmp="${tmp#*/}"
+    tmp="${tmp#*/}"
+    tmp="${tmp#raw/}"
+    tmp="${tmp#blob/}"
+    tmp="${tmp#*/}"
+    path_part="$tmp"
+else
+    path_part=""
+fi
+
     # Теперь путь будет что-то вроде "clash/ru-inline.yaml"
 
     # Отделяем имя файла
