@@ -28,7 +28,7 @@ jobs:
       - name: Convert SVG to PNG
         shell: bash
         env:
-          BASE_SIZE: "24"     # размер PNG в пикселях
+          BASE_SIZE: "128"     # размер PNG в пикселях
           SRC_DIR: "icon"
           OUT_DIR: "icon/png"
         run: |
