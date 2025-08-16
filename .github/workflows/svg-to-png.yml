@@ -28,14 +28,12 @@ jobs:
       - name: Convert SVG to PNG
         shell: bash
         env:
-          BASE_SIZE: "24"     # базовый размер (px)
-          SRC_DIR: "icon"     # папка с исходниками svg
-          OUT_DIR: "icon/png" # папка для png
+          BASE_SIZE: "24"     # размер PNG в пикселях
+          SRC_DIR: "icon"
+          OUT_DIR: "icon/png"
         run: |
           set -euo pipefail
           shopt -s globstar nullglob
-
-          declare -a SCALES=(1 2 3)
 
           for svg in "$SRC_DIR"/**/*.svg; do
             # Пропускаем svg внутри icon/png
@@ -43,23 +41,21 @@ jobs:
               continue
             fi
 
-            rel="${svg#${SRC_DIR}/}"       # относительный путь
-            base_no_ext="${rel%.svg}"      # имя без .svg
+            rel="${svg#${SRC_DIR}/}"       # путь внутри SRC_DIR
+            base_no_ext="${rel%.svg}"
             out_subdir="$OUT_DIR/$(dirname "$rel")"
             mkdir -p "$out_subdir"
 
-            for scale in "${SCALES[@]}"; do
-              size=$(( BASE_SIZE * scale ))
-              rsvg-convert "$svg" -w "$size" -h "$size" \
-                -o "$out_subdir/${base_no_ext}@${scale}x.png"
-            done
+            # Перезаписываем один PNG на экземпляр
+            rsvg-convert "$svg" -w "$BASE_SIZE" -h "$BASE_SIZE" \
+              -o "$out_subdir/${base_no_ext}.png"
           done
 
       - name: Commit & push if changed
         shell: bash
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain -- icon/png)" ]; then
+          if [ -z "$(git status -- icon/png)" ]; then
             echo "No PNG changes to commit."
             exit 0
           fi
