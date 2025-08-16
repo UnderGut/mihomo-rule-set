@@ -1,0 +1,72 @@
+name: SVG → PNG
+
+on:
+  push:
+    paths:
+      - "icon/**/*.svg"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Install converter (librsvg)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends librsvg2-bin
+
+      - name: Convert SVG to PNG
+        shell: bash
+        env:
+          BASE_SIZE: "24"     # базовый размер (px)
+          SRC_DIR: "icon"     # папка с исходниками svg
+          OUT_DIR: "icon/png" # папка для png
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+
+          declare -a SCALES=(1 2 3)
+
+          for svg in "$SRC_DIR"/**/*.svg; do
+            # Пропускаем svg внутри icon/png
+            if [[ "$svg" == "$OUT_DIR"* ]]; then
+              continue
+            fi
+
+            rel="${svg#${SRC_DIR}/}"       # относительный путь
+            base_no_ext="${rel%.svg}"      # имя без .svg
+            out_subdir="$OUT_DIR/$(dirname "$rel")"
+            mkdir -p "$out_subdir"
+
+            for scale in "${SCALES[@]}"; do
+              size=$(( BASE_SIZE * scale ))
+              rsvg-convert "$svg" -w "$size" -h "$size" \
+                -o "$out_subdir/${base_no_ext}@${scale}x.png"
+            done
+          done
+
+      - name: Commit & push if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- icon/png)" ]; then
+            echo "No PNG changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add icon/png
+          git commit -m "build: regenerate PNGs from SVG ($(date -u +'%Y-%m-%d %H:%M:%S'))"
+          git push
