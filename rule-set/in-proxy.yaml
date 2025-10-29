@@ -33,3 +33,6 @@ payload:
  - DOMAIN-KEYWORD,ikianime
  - DOMAIN-KEYWORD,anilibria
  - DOMAIN-KEYWORD,warcraftlogs
+ - PROCESS-NAME,Overwolf.exe
+ - PROCESS-NAME,Curseforge.exe
+ - PROCESS-NAME,WowUp.exe
