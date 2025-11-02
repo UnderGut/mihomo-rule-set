@@ -7,6 +7,7 @@ payload:
  - PROCESS-NAME,PathOfExile_x64Steam.exe   # Path of Exile — 64-битный клиент из Steam
  - PROCESS-NAME,PathOfExile2Installer.exe  # Установщик Path of Exile 2
  - PROCESS-NAME,Wow.exe                    # World of Warcraft — основной клиент игры
+ - PROCESS-NAME,WowClassic.exe             # World of Warcraft Classic — основной клиент игры
  - PROCESS-NAME,Agent.exe                  # World of Warcraft — служба обновлений Blizzard
  - PROCESS-NAME,Battle.net.exe             # Blizzard Battle.net — лаунчер всех игр
  - PROCESS-NAME,WowVoiceProxy.exe          # World of Warcraft — голосовой чат
