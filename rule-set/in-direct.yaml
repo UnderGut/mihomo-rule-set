@@ -46,3 +46,7 @@ payload:
  - DOMAIN-KEYWORD,wildberries
  - DOMAIN-KEYWORD,aliexpress
  - DOMAIN-KEYWORD,dns-shop
+ - DOMAIN-SUFFIX,yadi.sk
+ - DOMAIN-SUFFIX,jivosite.com
+ - DOMAIN-SUFFIX,avira.com
+ - DOMAIN-KEYWORD,avito
