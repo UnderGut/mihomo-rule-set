@@ -21,3 +21,5 @@ payload:
  - PROCESS-NAME,BEService.exe     
  - PROCESS-NAME,Diablo IV.exe
  - PROCESS-NAME,skate.exe
+ - DOMAIN-SUFFIX,poe.com
+ - DOMAIN-SUFFIX,poecdn.net
