@@ -172,7 +172,12 @@ payload:
   - PROCESS-NAME,Wuthering Waves.exe
   - PROCESS-NAME,KRWebView.exe
   - PROCESS-NAME,KRSDKExternal.exe
-
+  
+  # Arma
+  - PROCESS-NAME,ArmaReforger_BE.exe
+  - PROCESS-NAME,ArmaReforgerSteam.exe
+  - PROCESS-NAME,ArmaReforgerSteamDiag.exe
+  
   # ────────────── САЙТЫ ──────────────
   # FaceIT
   - DOMAIN-SUFFIX,faceit.com
