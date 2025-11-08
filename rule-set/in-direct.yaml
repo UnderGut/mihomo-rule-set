@@ -50,3 +50,4 @@ payload:
  - DOMAIN-SUFFIX,jivosite.com
  - DOMAIN-SUFFIX,avira.com
  - DOMAIN-KEYWORD,avito
+ - DOMAIN-KEYWORD,snappy-driver
