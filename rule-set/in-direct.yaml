@@ -51,3 +51,4 @@ payload:
  - DOMAIN-SUFFIX,avira.com
  - DOMAIN-KEYWORD,avito
  - DOMAIN-KEYWORD,snappy-driver
+ - PROCESS-NAME-REGEX,(?i)SDIO
