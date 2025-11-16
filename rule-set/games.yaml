@@ -182,3 +182,7 @@ payload:
   # FaceIT
   - DOMAIN-SUFFIX,faceit.com
   - DOMAIN-SUFFIX,faceit-cdn.net
+
+  - DOMAIN-SUFFIX,bf6.exe
+
+  
