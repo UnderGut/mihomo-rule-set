@@ -91,6 +91,30 @@ payload:
   - PROCESS-NAME-REGEX,(?i).*ragemp.*
 
   # ───────────────────────────────────────
+  # ONCE_HUMAN
+  # ───────────────────────────────────────
+  - PROCESS-NAME,ONCE_HUMAN.exe
+  - PROCESS-NAME,UniCrashReporter.exe
+
+  # Вспомогательные/встроенные модули
+  - PROCESS-NAME,CrashReporter.exe
+  - PROCESS-NAME,CCMini.exe
+  - PROCESS-NAME,CCVideoPlayerApp64.exe
+  - PROCESS-NAME,MLiveCCPlayerApp64.exe
+
+  # CC Game Record / Capture
+  - PROCESS-NAME,CCGameCaptureHookHelper.exe
+  - PROCESS-NAME,CCGameCaptureHookHelper64.exe
+  - PROCESS-NAME,CCGame-get-graphics-offsets32.exe
+  - PROCESS-NAME,CCGame-get-graphics-offsets64.exe
+  - PROCESS-NAME,CCGameRecord.exe
+  - PROCESS-NAME,CCGameRecord-amf-test.exe
+  - PROCESS-NAME,CCGameRecordHWEncoder.exe
+  - PROCESS-NAME,CCGameRecord-qsv-test.exe
+  - PROCESS-NAME,get-graphics-offsets64.exe
+  - PROCESS-NAME,UpLoadRecord.exe
+
+  # ───────────────────────────────────────
   # ПРОЧИЕ ИГРЫ
   # ───────────────────────────────────────
 
