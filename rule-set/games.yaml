@@ -154,6 +154,9 @@ payload:
   # Dota 2
   - PROCESS-NAME,dota2.exe
 
+  # Arc Raiders
+  - PROCESS-NAME,PioneerGame.exe
+
   # Escape from Tarkov
   - PROCESS-NAME,BsgLauncher.exe
   - PROCESS-NAME,EscapeFromTarkovArena.exe
