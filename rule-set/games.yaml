@@ -176,6 +176,9 @@ payload:
   # Hunt: Showdown
   - PROCESS-NAME,HuntGame.exe
 
+  # King's Raid Steam
+  - PROCESS-NAME,King's Raid.exe
+
   # Marvel Rivals
   - PROCESS-NAME,Marvel-Win64-Shipping.exe
   - PROCESS-NAME,MarvelRivals_Launcher.exe
