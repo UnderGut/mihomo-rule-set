@@ -20,6 +20,8 @@ payload:
  - DOMAIN-SUFFIX,snob.ru
  - DOMAIN-SUFFIX,novayagazeta.ru
  - DOMAIN-SUFFIX,moscowtimes.ru
+ - DOMAIN-SUFFIX,simplearmory.com
+ - DOMAIN-SUFFIX,wow-professions.com
  - DOMAIN-KEYWORD,kingsgroupgames
  - DOMAIN-KEYWORD,bible-api
  - DOMAIN-KEYWORD,animego
