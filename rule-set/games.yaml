@@ -238,6 +238,10 @@ payload:
   - PROCESS-NAME,KRWebView.exe
   - PROCESS-NAME,Wuthering Waves.exe
 
+
+  # Arknights: Endfield
+  - PROCESS-NAME,Endfield.exe
+
   # ───────────────────────────────────────
   # САЙТЫ
   # ───────────────────────────────────────
@@ -247,3 +251,4 @@ payload:
   - DOMAIN-SUFFIX,faceit.com
 
   - PROCESS-NAME,bf6.exe
+
