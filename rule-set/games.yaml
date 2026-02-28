@@ -59,6 +59,25 @@ payload:
   - PROCESS-NAME,ZenlessZoneZero.exe
 
   # ───────────────────────────────────────
+  # RIOT GAMES / LEAGUE OF LEGENDS
+  # ───────────────────────────────────────
+  - PROCESS-NAME,LeagueClient.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClientUxRender.exe
+  - PROCESS-NAME,League of Legends.exe
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,RiotClientCrashHandler.exe
+  - PROCESS-NAME,Riot Client.exe
+  - PROCESS-NAME-REGEX,(?i)^riot
+  - PROCESS-NAME-REGEX,(?i)^league
+  - DOMAIN-SUFFIX,riotgames.com
+  - DOMAIN-SUFFIX,leagueoflegends.com
+  - DOMAIN-SUFFIX,pvp.net
+  - DOMAIN-SUFFIX,riotcdn.net
+  - DOMAIN-SUFFIX,lolesports.com
+  - DOMAIN-SUFFIX,riotgames.net
+
+  # ───────────────────────────────────────
   # PATH OF EXILE
   # ───────────────────────────────────────
   - PROCESS-NAME,PathOfExile.exe
@@ -251,4 +270,3 @@ payload:
   - DOMAIN-SUFFIX,faceit.com
 
   - PROCESS-NAME,bf6.exe
-
