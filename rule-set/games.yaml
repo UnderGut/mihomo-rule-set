@@ -1,127 +1,63 @@
 payload:
-  # ───────────────────────────────────────
-  # АНТИЧИТЫ
-  # ───────────────────────────────────────
+  # ═══════════════════════════════════════════════════════
+  #
+  #  UnderVPN — Правила для игр (Mihomo / ClashMeta)
+  #
+  #  Файл используется как rule-provider type: http
+  #  behavior: classical | format: yaml
+  #
+  #  Способы определения трафика:
+  #  1. PROCESS-NAME      — точное имя .exe
+  #  2. PROCESS-NAME-REGEX — регулярное выражение
+  #  3. DOMAIN-SUFFIX      — домены (DNS, API, CDN)
+  #
+  #  Домены Steam и EA покрываются отдельными
+  #  geosite rule-sets, здесь не дублируются.
+  #
+  # ═══════════════════════════════════════════════════════
 
-  # Anti-Cheat Expert
+
+  # ═══════════════════════════════════════
+  #       § 1  АНТИЧИТЫ / ANTI-CHEAT
+  # ═══════════════════════════════════════
+  # Общие модули — ставятся вместе с играми,
+  # трафик должен идти тем же маршрутом.
+
+  # Anti-Cheat Expert (Tencent)
   - PROCESS-NAME,ACE-Service64.exe
   - PROCESS-NAME,SGuard64.exe
   - PROCESS-NAME,SGuardSvc64.exe
   - PROCESS-NAME,SGuardUpdate64.exe
 
-  # BattleEye (для ряда игр)
+  # BattleEye
   - PROCESS-NAME,BEService.exe
-  - PROCESS-NAME,EscapeFromTarkovArena_BE.exe
-  - PROCESS-NAME,EscapeFromTarkov_BE.exe
-  - PROCESS-NAME,TslGame_BE.exe
-
-  # BattleBit EAC
-  - PROCESS-NAME,BattleBitEAC.exe
+  - PROCESS-NAME,BEService_x64.exe
 
   # Easy Anti-Cheat
   - PROCESS-NAME,EasyAntiCheat.exe
   - PROCESS-NAME,EasyAntiCheat_EOS.exe
-  - PROCESS-NAME,start_protected_game.exe     # Apex Legends, THE FINALS
+  - PROCESS-NAME,start_protected_game.exe
 
-  # FaceIT AC
+  # FaceIT Anti-Cheat
   - PROCESS-NAME,faceitclient.exe
   - PROCESS-NAME,faceitservice.exe
 
-  # Vanguard Anti-Cheat (Valorant)
+  # Vanguard (Riot — Valorant / LoL)
   - PROCESS-NAME,vgc.exe
   - PROCESS-NAME,vgm.exe
   - PROCESS-NAME-REGEX,(?i).*vanguard.*
 
-  # ───────────────────────────────────────
-  # BLIZZARD
-  # ───────────────────────────────────────
-  - PROCESS-NAME,Agent.exe
-  - PROCESS-NAME,Battle.net-Setup.exe
-  - PROCESS-NAME,Battle.net.exe
-  - PROCESS-NAME,BlizzardBrowser.exe
-  - PROCESS-NAME,Diablo IV.exe
-  - PROCESS-NAME,Hearthstone.exe
-  - PROCESS-NAME,Overwatch.exe
-  - PROCESS-NAME,Wow.exe
-  - PROCESS-NAME,WowClassic.exe
-  - PROCESS-NAME,WowVoiceProxy.exe
+  # nProtect GameGuard
+  - PROCESS-NAME,GameGuard.des
+  - PROCESS-NAME,GameMon.des
+  - PROCESS-NAME,GameMon64.des
 
-  # ───────────────────────────────────────
-  # HOYOVERSE
-  # ───────────────────────────────────────
-  - PROCESS-NAME,BH3.exe
-  - PROCESS-NAME,GenshinImpact.exe
-  - PROCESS-NAME,HYP.exe
-  - PROCESS-NAME,HYPHelper.exe
-  - PROCESS-NAME,HYUpdater.exe
-  - PROCESS-NAME,StarRail.exe
-  - PROCESS-NAME,ZFGameBrowser.exe
-  - PROCESS-NAME,ZenlessZoneZero.exe
 
-  # ───────────────────────────────────────
-  # RIOT GAMES / LEAGUE OF LEGENDS
-  # ───────────────────────────────────────
-  - PROCESS-NAME,LeagueClient.exe
-  - PROCESS-NAME,LeagueClientUx.exe
-  - PROCESS-NAME,LeagueClientUxRender.exe
-  - PROCESS-NAME,League of Legends.exe
-  - PROCESS-NAME,RiotClientServices.exe
-  - PROCESS-NAME,RiotClientCrashHandler.exe
-  - PROCESS-NAME,Riot Client.exe
-  - PROCESS-NAME-REGEX,(?i)^riot
-  - PROCESS-NAME-REGEX,(?i)^league
-  - DOMAIN-SUFFIX,riotgames.com
-  - DOMAIN-SUFFIX,leagueoflegends.com
-  - DOMAIN-SUFFIX,pvp.net
-  - DOMAIN-SUFFIX,riotcdn.net
-  - DOMAIN-SUFFIX,lolesports.com
-  - DOMAIN-SUFFIX,riotgames.net
+  # ═══════════════════════════════════════
+  # § 2  ЗАПИСЬ / ОВЕРЛЕИ / ВСПОМОГАТЕЛЬНОЕ
+  # ═══════════════════════════════════════
 
-  # ───────────────────────────────────────
-  # PATH OF EXILE
-  # ───────────────────────────────────────
-  - PROCESS-NAME,PathOfExile.exe
-  - PROCESS-NAME,PathOfExile2Installer.exe
-  - PROCESS-NAME,PathOfExileSteam.exe
-  - PROCESS-NAME,PathOfExile_x64.exe
-  - PROCESS-NAME,PathOfExile_x64Steam.exe
-  - DOMAIN-SUFFIX,poe.com
-  - DOMAIN-SUFFIX,poecdn.net
-
-  # ───────────────────────────────────────
-  # PUBG
-  # ───────────────────────────────────────
-  - PROCESS-NAME,ExecPubg.exe
-  - PROCESS-NAME,TslGame_ZK.exe
-  - PROCESS-NAME,zksvc.exe
-  - PROCESS-NAME,BEService.exe
-  - PROCESS-NAME-REGEX,TslGame.*
-
-  # ───────────────────────────────────────
-  # GTA V / FiveM / RageMP / alt:V
-  # ───────────────────────────────────────
-  - PROCESS-NAME,FiveM.exe
-  - PROCESS-NAME,altv-webengine.exe
-  - PROCESS-NAME,altv.exe
-  - PROCESS-NAME-REGEX,.*GTA5.*
-  - PROCESS-NAME-REGEX,(?i).*Majestic.*
-  - PROCESS-NAME-REGEX,(?i).*Rockstar.*
-  - PROCESS-NAME-REGEX,(?i).*SocialClub.*
-  - PROCESS-NAME-REGEX,(?i).*ragemp.*
-
-  # ───────────────────────────────────────
-  # ONCE_HUMAN
-  # ───────────────────────────────────────
-  - PROCESS-NAME,ONCE_HUMAN.exe
-  - PROCESS-NAME,UniCrashReporter.exe
-
-  # Вспомогательные/встроенные модули
-  - PROCESS-NAME,CrashReporter.exe
-  - PROCESS-NAME,CCMini.exe
-  - PROCESS-NAME,CCVideoPlayerApp64.exe
-  - PROCESS-NAME,MLiveCCPlayerApp64.exe
-
-  # CC Game Record / Capture
+  # CC Game Record / Capture (NetEase)
   - PROCESS-NAME,CCGameCaptureHookHelper.exe
   - PROCESS-NAME,CCGameCaptureHookHelper64.exe
   - PROCESS-NAME,CCGame-get-graphics-offsets32.exe
@@ -132,141 +68,713 @@ payload:
   - PROCESS-NAME,CCGameRecord-qsv-test.exe
   - PROCESS-NAME,get-graphics-offsets64.exe
   - PROCESS-NAME,UpLoadRecord.exe
+  - PROCESS-NAME,CCMini.exe
+  - PROCESS-NAME,CCVideoPlayerApp64.exe
+  - PROCESS-NAME,MLiveCCPlayerApp64.exe
 
-  # ───────────────────────────────────────
-  # ПРОЧИЕ ИГРЫ
-  # ───────────────────────────────────────
+  # Crash-reporters (общие игровые)
+  - PROCESS-NAME,CrashReporter.exe
+  - PROCESS-NAME,UniCrashReporter.exe
 
-  # Aimbeast
-  - PROCESS-NAME-REGEX,Aimbeast.*
 
-  # Among Us
-  - PROCESS-NAME,Among Us.exe
+  # ═══════════════════════════════════════
+  #     § 3  VALVE / SOURCE / SOURCE 2
+  # ═══════════════════════════════════════
+  # Домены Steam покрываются geosite:steam.
+
+  # Counter-Strike 2
+  - PROCESS-NAME,cs2.exe
+
+  # Dota 2
+  - PROCESS-NAME,dota2.exe
+
+  # Deadlock
+  - PROCESS-NAME,deadlock.exe
+
+  # Team Fortress 2
+  - PROCESS-NAME,tf.exe
+  - PROCESS-NAME,tf_win64.exe
+
+  # Half-Life 2 / Source Engine
+  - PROCESS-NAME,hl2.exe
+
+  # Left 4 Dead 2
+  - PROCESS-NAME,left4dead2.exe
+
+  # Garry's Mod
+  - PROCESS-NAME,gmod.exe
+
+  # Portal 2
+  - PROCESS-NAME,portal2.exe
+
+
+  # ═══════════════════════════════════════
+  #       § 4  BLIZZARD / BATTLE.NET
+  # ═══════════════════════════════════════
+
+  # Battle.net Launcher  ⚠️ Agent.exe — общее имя, но это Blizzard Update Agent
+  - PROCESS-NAME,Agent.exe
+  - PROCESS-NAME,Battle.net-Setup.exe
+  - PROCESS-NAME,Battle.net.exe
+  - PROCESS-NAME,BlizzardBrowser.exe
+
+  # Diablo IV
+  - PROCESS-NAME,Diablo IV.exe
+
+  # Hearthstone
+  - PROCESS-NAME,Hearthstone.exe
+
+  # Overwatch 2
+  - PROCESS-NAME,Overwatch.exe
+
+  # StarCraft II
+  - PROCESS-NAME,SC2.exe
+  - PROCESS-NAME,SC2_x64.exe
+
+  # World of Warcraft
+  - PROCESS-NAME,Wow.exe
+  - PROCESS-NAME,WowClassic.exe
+  - PROCESS-NAME,WowVoiceProxy.exe
+
+  - DOMAIN-SUFFIX,blizzard.com
+  - DOMAIN-SUFFIX,battle.net
+
+
+  # ═══════════════════════════════════════
+  #         § 5  RIOT GAMES
+  # ═══════════════════════════════════════
+
+  # League of Legends
+  - PROCESS-NAME,LeagueClient.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClientUxRender.exe
+  - PROCESS-NAME,League of Legends.exe
+
+  # Valorant
+  - PROCESS-NAME,VALORANT-Win64-Shipping.exe
+
+  # Teamfight Tactics (shared with LoL client)
+
+  # Riot Launcher / общее
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,RiotClientCrashHandler.exe
+  - PROCESS-NAME,Riot Client.exe
+  - PROCESS-NAME-REGEX,(?i)^riot
+  - PROCESS-NAME-REGEX,(?i)^league
+
+  - DOMAIN-SUFFIX,riotgames.com
+  - DOMAIN-SUFFIX,leagueoflegends.com
+  - DOMAIN-SUFFIX,pvp.net
+  - DOMAIN-SUFFIX,riotcdn.net
+  - DOMAIN-SUFFIX,lolesports.com
+  - DOMAIN-SUFFIX,riotgames.net
+  - DOMAIN-SUFFIX,valorant.com
+
+
+  # ═══════════════════════════════════════
+  #           § 6  HOYOVERSE
+  # ═══════════════════════════════════════
+
+  # HoYoPlay Launcher
+  - PROCESS-NAME,HYP.exe
+  - PROCESS-NAME,HYPHelper.exe
+  - PROCESS-NAME,HYUpdater.exe
+  - PROCESS-NAME,ZFGameBrowser.exe
+
+  # Honkai Impact 3rd
+  - PROCESS-NAME,BH3.exe
+
+  # Genshin Impact
+  - PROCESS-NAME,GenshinImpact.exe
+
+  # Honkai: Star Rail
+  - PROCESS-NAME,StarRail.exe
+
+  # Zenless Zone Zero
+  - PROCESS-NAME,ZenlessZoneZero.exe
+
+  - DOMAIN-SUFFIX,hoyoverse.com
+  - DOMAIN-SUFFIX,mihoyo.com
+  - DOMAIN-SUFFIX,hoyolab.com
+
+
+  # ═══════════════════════════════════════
+  #        § 7  ROCKSTAR GAMES
+  # ═══════════════════════════════════════
+
+  # Rockstar Launcher / Social Club
+  - PROCESS-NAME-REGEX,(?i).*Rockstar.*
+  - PROCESS-NAME-REGEX,(?i).*SocialClub.*
+
+  # GTA V / GTA Online (+ FiveM, alt:V, RageMP)
+  - PROCESS-NAME-REGEX,(?i)gta[5v]
+  - PROCESS-NAME,PlayGTAV.exe
+  - PROCESS-NAME,FiveM.exe
+  - PROCESS-NAME,altv-webengine.exe
+  - PROCESS-NAME,altv.exe
+  - PROCESS-NAME-REGEX,(?i).*ragemp.*
+  - PROCESS-NAME-REGEX,(?i).*Majestic.*
+
+  # Red Dead Redemption 2
+  - PROCESS-NAME,RDR2.exe
+
+  - DOMAIN-SUFFIX,rockstargames.com
+
+
+  # ═══════════════════════════════════════
+  #            § 8  EA GAMES
+  # ═══════════════════════════════════════
+  # Домены EA покрываются geosite:ea.
 
   # Apex Legends
-  - PROCESS-NAME,ApexLauncher.exe
+  - PROCESS-NAME,r5apex.exe
   - PROCESS-NAME,r5apex_dx12.exe
+  - PROCESS-NAME,ApexLauncher.exe
+
+  # Battlefield 2042
+  - PROCESS-NAME,bf6.exe
+
+  # EA SPORTS FC / FIFA
+  - PROCESS-NAME-REGEX,(?i)(^fc\d|^fifa)
+
+  # It Takes Two
+  - PROCESS-NAME,ItTakesTwo.exe
+
+  # The Sims 4
+  - PROCESS-NAME,TS4_x64.exe
+
+  # Need for Speed
+  - PROCESS-NAME-REGEX,(?i)(needforspeed|^nfs)
+
+  # Star Wars Jedi series (UE)
+  - PROCESS-NAME-REGEX,(?i)jedi.*shipping
+
+
+  # ═══════════════════════════════════════
+  #            § 9  UBISOFT
+  # ═══════════════════════════════════════
+
+  # Ubisoft Connect
+  - PROCESS-NAME,UbisoftConnect.exe
+  - PROCESS-NAME,UbisoftGameLauncher.exe
+  - PROCESS-NAME,upc.exe
+
+  # Rainbow Six Siege
+  - PROCESS-NAME,RainbowSix.exe
+
+  # Assassin's Creed series
+  - PROCESS-NAME-REGEX,(?i)assassin
+
+  # Far Cry series
+  - PROCESS-NAME-REGEX,(?i)farcry
+
+  # For Honor
+  - PROCESS-NAME,forhonor.exe
+
+  # The Division 2
+  - PROCESS-NAME,TheDivision2.exe
+
+  # XDefiant
+  - PROCESS-NAME,XDefiant.exe
+
+  - DOMAIN-SUFFIX,ubisoft.com
+  - DOMAIN-SUFFIX,ubi.com
+
+
+  # ═══════════════════════════════════════
+  #     § 10  EPIC GAMES / FORTNITE
+  # ═══════════════════════════════════════
+
+  # Epic Games Launcher
+  - PROCESS-NAME,EpicGamesLauncher.exe
+  - PROCESS-NAME,EpicWebHelper.exe
+
+  # Fortnite
+  - PROCESS-NAME,FortniteClient-Win64-Shipping.exe
+  - PROCESS-NAME,FortniteLauncher.exe
+
+  # Fall Guys
+  - PROCESS-NAME,FallGuys_client_game.exe
+
+  # Rocket League
+  - PROCESS-NAME,RocketLeague.exe
+
+  - DOMAIN-SUFFIX,epicgames.com
+  - DOMAIN-SUFFIX,unrealengine.com
+  - DOMAIN-SUFFIX,fortnite.com
+
+
+  # ═══════════════════════════════════════
+  # § 11  WARGAMING / GAIJIN / ВОЕННОЕ
+  # ═══════════════════════════════════════
+
+  # Wargaming Game Center
+  - PROCESS-NAME,wgc.exe
+
+  # World of Tanks
+  - PROCESS-NAME,WorldOfTanks.exe
+
+  # World of Warships
+  - PROCESS-NAME,WorldOfWarships.exe
+  - PROCESS-NAME,WorldOfWarships64.exe
+
+  # War Thunder (Gaijin)
+  - PROCESS-NAME,aces.exe
+
+  - DOMAIN-SUFFIX,wargaming.net
+  - DOMAIN-SUFFIX,warthunder.com
+  - DOMAIN-SUFFIX,gaijin.net
+
+
+  # ═══════════════════════════════════════
+  #     § 12  MMORPG / ONLINE RPG
+  # ═══════════════════════════════════════
+
+  # Final Fantasy XIV
+  - PROCESS-NAME,ffxiv_dx11.exe
+  - PROCESS-NAME,ffxiv.exe
+  - DOMAIN-SUFFIX,finalfantasyxiv.com
+
+  # Guild Wars 2
+  - PROCESS-NAME,Gw2-64.exe
+  - PROCESS-NAME,Gw2.exe
+
+  # Lost Ark
+  - PROCESS-NAME,LOSTARK.exe
+
+  # New World
+  - PROCESS-NAME,NewWorld.exe
+
+  # Black Desert Online
+  - PROCESS-NAME,BlackDesert64.exe
+
+  # Elder Scrolls Online
+  - PROCESS-NAME,eso64.exe
+  - PROCESS-NAME,eso.exe
+
+  # Warframe
+  - PROCESS-NAME,Warframe.x64.exe
+  - PROCESS-NAME,Warframe.exe
+  - DOMAIN-SUFFIX,warframe.com
+
+  # Albion Online
+  - PROCESS-NAME,Albion-Online.exe
+
+
+  # ═══════════════════════════════════════
+  #       § 13  RPG / ACTION RPG
+  # ═══════════════════════════════════════
+
+  # Path of Exile / Path of Exile 2
+  - PROCESS-NAME,PathOfExile.exe
+  - PROCESS-NAME,PathOfExile2Installer.exe
+  - PROCESS-NAME,PathOfExileSteam.exe
+  - PROCESS-NAME,PathOfExile_x64.exe
+  - PROCESS-NAME,PathOfExile_x64Steam.exe
+  - DOMAIN-SUFFIX,poe.com
+  - DOMAIN-SUFFIX,poecdn.net
+
+  # Elden Ring
+  - PROCESS-NAME,eldenring.exe
+
+  # Dark Souls III
+  - PROCESS-NAME,DarkSoulsIII.exe
+
+  # Dark Souls Remastered
+  - PROCESS-NAME,DARK SOULS REMASTERED.exe
+
+  # Sekiro: Shadows Die Twice
+  - PROCESS-NAME,sekiro.exe
+
+  # Baldur's Gate 3
+  - PROCESS-NAME,bg3.exe
+  - PROCESS-NAME,bg3_dx11.exe
+
+  # Cyberpunk 2077
+  - PROCESS-NAME,Cyberpunk2077.exe
+
+  # Hogwarts Legacy
+  - PROCESS-NAME,HogwartsLegacy.exe
+
+  # The Witcher 3
+  - PROCESS-NAME,witcher3.exe
+
+  # Monster Hunter (World / Rise / Wilds)
+  - PROCESS-NAME,MonsterHunterWorld.exe
+  - PROCESS-NAME,MonsterHunterRise.exe
+  - PROCESS-NAME-REGEX,(?i)^monsterhunter
+
+  # Dragon's Dogma 2
+  - PROCESS-NAME,DD2.exe
+
+  # Divinity: Original Sin 2
+  - PROCESS-NAME,DivinityOriginalSin2.exe
+
+  # Nioh 2
+  - PROCESS-NAME,nioh2.exe
+
+  # Armored Core VI
+  - PROCESS-NAME,armoredcore6.exe
+
+
+  # ═══════════════════════════════════════
+  #  § 14  ШУТЕРЫ / FPS / BATTLE ROYALE
+  # ═══════════════════════════════════════
+
+  # PUBG
+  - PROCESS-NAME,ExecPubg.exe
+  - PROCESS-NAME,TslGame_ZK.exe
+  - PROCESS-NAME,TslGame_BE.exe
+  - PROCESS-NAME,zksvc.exe
+  - PROCESS-NAME-REGEX,TslGame.*
+
+  # Escape from Tarkov / Arena
+  - PROCESS-NAME,BsgLauncher.exe
+  - PROCESS-NAME,EscapeFromTarkovArena.exe
+  - PROCESS-NAME,EscapeFromTarkovArena_BE.exe
+  - PROCESS-NAME,EscapeFromTarkov_BE.exe
+  - PROCESS-NAME-REGEX,EscapeFromTarkov.*
+
+  # Destiny 2
+  - PROCESS-NAME,destiny2.exe
+  - DOMAIN-SUFFIX,bungie.net
+
+  # THE FINALS
+  - PROCESS-NAME,Discovery.exe
+
+  # HELLDIVERS 2
+  - PROCESS-NAME,helldivers2.exe
+  - PROCESS-NAME,crs-handler.exe
+
+  # Hunt: Showdown
+  - PROCESS-NAME,HuntGame.exe
+
+  # FragPunk
+  - PROCESS-NAME,FragPunk.exe
+
+  # PEAK
+  - PROCESS-NAME,PEAK.exe
 
   # Arma Reforger
   - PROCESS-NAME,ArmaReforgerSteam.exe
   - PROCESS-NAME,ArmaReforgerSteamDiag.exe
   - PROCESS-NAME,ArmaReforger_BE.exe
 
-  # Arena Breakout
+  # Arena Breakout: Infinite
   - PROCESS-NAME,UAGame.exe
 
   # BattleBit Remastered
+  - PROCESS-NAME,BattleBitEAC.exe
   - PROCESS-NAME-REGEX,BattleBit.*
 
-  # Content Warning
-  - PROCESS-NAME,Content Warning.exe
+  # Deep Rock Galactic
+  - PROCESS-NAME,FSD-Win64-Shipping.exe
+  - PROCESS-NAME,FSD.exe
 
-  # Counter-Strike 2
-  - PROCESS-NAME,cs2.exe
+  # Squad
+  - PROCESS-NAME-REGEX,(?i)^squad
 
-  # Dead by Daylight
-  - PROCESS-NAME-REGEX,DeadByDaylight.*
+  # Insurgency: Sandstorm
+  - PROCESS-NAME-REGEX,(?i)^insurgency
 
-  # Deadlock
-  - PROCESS-NAME,deadlock.exe
+  # Ready or Not (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,ReadyOrNot-Win64-Shipping.exe
 
-  # Dota 2
-  - PROCESS-NAME,dota2.exe
+  # GTFO
+  - PROCESS-NAME,GTFO.exe
 
-  # Arc Raiders
-  - PROCESS-NAME,PioneerGame.exe
+  # Aimbeast (тренажёр)
+  - PROCESS-NAME-REGEX,Aimbeast.*
 
-  # Escape from Tarkov
-  - PROCESS-NAME,BsgLauncher.exe
-  - PROCESS-NAME,EscapeFromTarkovArena.exe
-  - PROCESS-NAME-REGEX,EscapeFromTarkov.*
+  # Overwatch 2 → см. § 4 Blizzard
+  # Valorant   → см. § 5 Riot Games
+  # Apex       → см. § 8 EA Games
+  # Fortnite   → см. § 10 Epic Games
 
-  # Euro/American Truck Simulator
-  - PROCESS-NAME,amtrucks.exe
-  - PROCESS-NAME,eurotrucks2.exe
 
-  # FragPunk
-  - PROCESS-NAME,FragPunk.exe
-
-  # HELLDIVERS 2
-  - PROCESS-NAME,crs-handler.exe
-  - PROCESS-NAME,helldivers2.exe
-
-  # Hunt: Showdown
-  - PROCESS-NAME,HuntGame.exe
-
-  # King's Raid Steam
-  - PROCESS-NAME,King's Raid.exe
-
-  # Marvel Rivals
-  - PROCESS-NAME,Marvel-Win64-Shipping.exe
-  - PROCESS-NAME,MarvelRivals_Launcher.exe
-
-  # Minecraft
-  - PROCESS-NAME,Minecraft.exe
-  - PROCESS-NAME,javaw.exe
-
-  # osu!
-  - PROCESS-NAME,osu!.exe
-
-  # Party Animals
-  - PROCESS-NAME,PartyAnimals.exe
-
-  # PEAK
-  - PROCESS-NAME,PEAK.exe
-
-  # Phasmophobia
-  - PROCESS-NAME,Phasmophobia.exe
-
-  # Quaver
-  - PROCESS-NAME,Quaver.exe
-
-  # Rainbow Six Siege
-  - PROCESS-NAME,RainbowSix.exe
-
-  # REPO
-  - PROCESS-NAME,REPO.exe
+  # ═══════════════════════════════════════
+  #    § 15  SURVIVAL / SANDBOX / CRAFT
+  # ═══════════════════════════════════════
 
   # Rust
   - PROCESS-NAME-REGEX,(?i).*RustClient.*
 
+  # ARK: Survival Evolved  ⚠️ ShooterGame.exe — общее имя UE, но в основном это ARK
+  - PROCESS-NAME,ShooterGame.exe
+
+  # ARK: Survival Ascended
+  - PROCESS-NAME,ArkAscended.exe
+
+  # Palworld (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,Palworld-Win64-Shipping.exe
+
+  # Valheim
+  - PROCESS-NAME,valheim.exe
+
+  # Terraria
+  - PROCESS-NAME,Terraria.exe
+
+  # Subnautica / Below Zero
+  - PROCESS-NAME,Subnautica.exe
+  - PROCESS-NAME,SubnauticaZero.exe
+
+  # DayZ
+  - PROCESS-NAME,DayZ_x64.exe
+  - PROCESS-NAME,DayZ_BE.exe
+
+  # 7 Days to Die
+  - PROCESS-NAME,7DaysToDie.exe
+
+  # The Forest
+  - PROCESS-NAME,TheForest.exe
+
+  # Sons Of The Forest
+  - PROCESS-NAME,SonsOfTheForest.exe
+
+  # Raft
+  - PROCESS-NAME,Raft.exe
+
+  # Satisfactory (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,FactoryGame-Win64-Shipping.exe
+
+  # Factorio
+  - PROCESS-NAME,factorio.exe
+
+  # No Man's Sky
+  - PROCESS-NAME,NMS.exe
+
+  # Space Engineers
+  - PROCESS-NAME,SpaceEngineers.exe
+
+  # Don't Starve Together
+  - PROCESS-NAME,dontstarve_steam_x64.exe
+
+  # Stardew Valley
+  - PROCESS-NAME,Stardew Valley.exe
+
+  # V Rising
+  - PROCESS-NAME,VRising.exe
+
+  # Conan Exiles
+  - PROCESS-NAME,ConanSandbox.exe
+
+  # Once Human
+  - PROCESS-NAME,ONCE_HUMAN.exe
+
+  # Grounded (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,Maine-Win64-Shipping.exe
+
+  # Minecraft  ⚠️ javaw.exe ловит ВСЕ Java-приложения
+  - PROCESS-NAME,Minecraft.exe
+  - PROCESS-NAME,javaw.exe
+
+
+  # ═══════════════════════════════════════
+  #      § 16  СТРАТЕГИИ / STRATEGY
+  # ═══════════════════════════════════════
+
+  # Civilization VI / VII
+  - PROCESS-NAME,CivilizationVI.exe
+  - PROCESS-NAME,CivilizationVI_DX12.exe
+  - PROCESS-NAME-REGEX,(?i)^civilization
+
+  # Paradox Interactive: HoI4, EU4, CK3, Stellaris, Victoria 3
+  - PROCESS-NAME,hoi4.exe
+  - PROCESS-NAME,eu4.exe
+  - PROCESS-NAME,ck3.exe
+  - PROCESS-NAME,stellaris.exe
+  - PROCESS-NAME,victoria3.exe
+
+  # Total War: Warhammer III
+  - PROCESS-NAME,Warhammer3.exe
+
+  # Age of Empires IV
+  - PROCESS-NAME,RelicCardinal.exe
+
+  # Age of Empires II: Definitive Edition
+  - PROCESS-NAME,AoE2DE_s.exe
+
+  # Cities: Skylines I / II
+  - PROCESS-NAME,CitiesSkylines.exe
+  - PROCESS-NAME,Cities2.exe
+
+  # RimWorld
+  - PROCESS-NAME,RimWorldWin64.exe
+
+  # Dwarf Fortress (Steam)
+  - PROCESS-NAME,Dwarf Fortress.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 17  ГОНКИ / СИМУЛЯТОРЫ / RACING
+  # ═══════════════════════════════════════
+
+  # Euro Truck Simulator 2
+  - PROCESS-NAME,eurotrucks2.exe
+
+  # American Truck Simulator
+  - PROCESS-NAME,amtrucks.exe
+
+  # Forza Horizon 5
+  - PROCESS-NAME,ForzaHorizon5.exe
+
+  # Forza Motorsport
+  - PROCESS-NAME,ForzaMotorsport.exe
+
+  # Assetto Corsa
+  - PROCESS-NAME,AssettoCorsa.exe
+
+  # Assetto Corsa Competizione
+  - PROCESS-NAME,acc.exe
+
+  # BeamNG.drive
+  - PROCESS-NAME-REGEX,(?i)^beamng
+
+  # iRacing
+  - PROCESS-NAME-REGEX,(?i)^iracing
+
+
+  # ═══════════════════════════════════════
+  #    § 18  ФАЙТИНГИ / FIGHTING
+  # ═══════════════════════════════════════
+
+  # Street Fighter 6
+  - PROCESS-NAME,streetfighter6.exe
+
+  # TEKKEN 8 (UE — Polaris codename)
+  - PROCESS-NAME,Polaris-Win64-Shipping.exe
+
+  # Mortal Kombat 1 (codename MK12)
+  - PROCESS-NAME,MK12.exe
+
+  # Brawlhalla
+  - PROCESS-NAME,Brawlhalla.exe
+
+  # MultiVersus (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,MultiVersus-Win64-Shipping.exe
+
+
+  # ═══════════════════════════════════════
+  #    § 19  КООП / ХОРРОР / CO-OP
+  # ═══════════════════════════════════════
+
+  # Among Us
+  - PROCESS-NAME,Among Us.exe
+
+  # Phasmophobia
+  - PROCESS-NAME,Phasmophobia.exe
+
+  # Content Warning
+  - PROCESS-NAME,Content Warning.exe
+
+  # Lethal Company
+  - PROCESS-NAME,Lethal Company.exe
+
+  # REPO
+  - PROCESS-NAME,REPO.exe
+
+  # GTFO
+  - PROCESS-NAME,GTFO.exe
+
+  # Party Animals
+  - PROCESS-NAME,PartyAnimals.exe
+
+  # Sea of Thieves
+  - PROCESS-NAME,SoTGame.exe
+
+  # Dead by Daylight
+  - PROCESS-NAME-REGEX,DeadByDaylight.*
+
+
+  # ═══════════════════════════════════════
+  #   § 20  РИТМ-ИГРЫ / VR / ПРОЧЕЕ
+  # ═══════════════════════════════════════
+
+  # osu!
+  - PROCESS-NAME,osu!.exe
+
+  # Quaver
+  - PROCESS-NAME,Quaver.exe
+
+  # Beat Saber
+  - PROCESS-NAME,Beat Saber.exe
+
+  # VRChat
+  - PROCESS-NAME,VRChat.exe
+
+
+  # ═══════════════════════════════════════
+  #      § 21  ПРОЧИЕ ИГРЫ / OTHER
+  # ═══════════════════════════════════════
+
+  # Arknights: Endfield (Hypergryph)
+  - PROCESS-NAME,Endfield.exe
+
+  # Marvel Rivals (UE — caught by Win64-Shipping regex too)
+  - PROCESS-NAME,Marvel-Win64-Shipping.exe
+  - PROCESS-NAME,MarvelRivals_Launcher.exe
+
+  # Wuthering Waves (Kuro Games)
+  - PROCESS-NAME,KRSDKExternal.exe
+  - PROCESS-NAME,KRWebView.exe
+  - PROCESS-NAME,Wuthering Waves.exe
+  - DOMAIN-SUFFIX,kurogames.com
+
+  # Naraka: Bladepoint
+  - PROCESS-NAME-REGEX,(?i)naraka
+
+  # King's Raid
+  - PROCESS-NAME,King's Raid.exe
+
   # Skate
   - PROCESS-NAME,skate.exe
-
-  # Team Fortress 2
-  - PROCESS-NAME,tf.exe
-  - PROCESS-NAME,tf_win64.exe
-
-  # Half-Life 2
-  - PROCESS-NAME,hl2.exe
-
-  # THE FINALS
-  - PROCESS-NAME,Discovery.exe
 
   # Umamusume: Pretty Derby
   - PROCESS-NAME,UmamusumePrettyDerby.exe
 
-  # Unreal Engine games
+  # Hollow Knight
+  - PROCESS-NAME,hollow_knight.exe
+
+  # Hades / Hades II
+  - PROCESS-NAME,Hades.exe
+  - PROCESS-NAME,Hades2.exe
+
+  # Cuphead
+  - PROCESS-NAME,Cuphead.exe
+
+  # Celeste
+  - PROCESS-NAME,Celeste.exe
+
+  # Dead Cells
+  - PROCESS-NAME,deadcells.exe
+
+  # Undertale / Deltarune
+  - PROCESS-NAME,UNDERTALE.exe
+  - PROCESS-NAME,DELTARUNE.exe
+  - PROCESS-NAME,SURVEY_PROGRAM.exe
+
+
+  # ═══════════════════════════════════════
+  #  § 22  UNREAL ENGINE (catch-all)
+  # ═══════════════════════════════════════
+  # ⚠️ Широкое правило: ловит ВСЕ процессы
+  # с Win64-Shipping в имени. Подавляющее
+  # большинство — игры на Unreal Engine
+  # (Fortnite, Palworld, Marvel Rivals, Tekken 8,
+  #  Satisfactory, MultiVersus и т.д.)
   - PROCESS-NAME-REGEX,(?i).*Win64-Shipping.*
 
-  # Valorant
-  - PROCESS-NAME,VALORANT-Win64-Shipping.exe
 
-  # Wuthering Waves
-  - PROCESS-NAME,KRSDKExternal.exe
-  - PROCESS-NAME,KRWebView.exe
-  - PROCESS-NAME,Wuthering Waves.exe
-
-
-  # Arknights: Endfield
-  - PROCESS-NAME,Endfield.exe
-
-  # ───────────────────────────────────────
-  # САЙТЫ
-  # ───────────────────────────────────────
+  # ═══════════════════════════════════════
+  #       § 23  ДОМЕНЫ / WEBSITES
+  # ═══════════════════════════════════════
+  # Общие домены, не привязанные к одному издателю.
+  # Steam, EA, Roblox покрываются отдельными geosite.
 
   # FaceIT
   - DOMAIN-SUFFIX,faceit-cdn.net
   - DOMAIN-SUFFIX,faceit.com
 
-  - PROCESS-NAME,bf6.exe
+  # GOG Galaxy
+  - DOMAIN-SUFFIX,gog.com
+  - DOMAIN-SUFFIX,gogalaxy.com
