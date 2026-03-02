@@ -49,6 +49,7 @@ payload:
  - DOMAIN-SUFFIX,yadi.sk
  - DOMAIN-SUFFIX,jivosite.com
  - DOMAIN-SUFFIX,avira.com
+ - DOMAIN-SUFFIX,reddit.com
  - DOMAIN-KEYWORD,avito
  - DOMAIN-KEYWORD,snappy-driver
  - PROCESS-NAME-REGEX,(?i)SDIO
