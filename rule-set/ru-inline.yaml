@@ -2,6 +2,7 @@ payload:
  - DOMAIN-SUFFIX,nalog.ru
  - DOMAIN-SUFFIX,cloud.obrut.stream
  - DOMAIN-SUFFIX,obrut.show
+ - DOMAIN-SUFFIX,2ip.ru
  - DOMAIN-SUFFIX,yastatic.net
  - DOMAIN-SUFFIX,yandex.net
  - DOMAIN-SUFFIX,yandex.kz
@@ -40,6 +41,7 @@ payload:
  - DOMAIN-KEYWORD,okko
  - DOMAIN-KEYWORD,wink
  - DOMAIN-KEYWORD,kion
+ - DOMAIN-KEYWORD,roblox
  - DOMAIN-KEYWORD,ozon
  - DOMAIN-KEYWORD,wildberries
  - DOMAIN-KEYWORD,aliexpress
@@ -47,7 +49,7 @@ payload:
  - DOMAIN-SUFFIX,yadi.sk
  - DOMAIN-SUFFIX,jivosite.com
  - DOMAIN-SUFFIX,avira.com
+ - DOMAIN-SUFFIX,reddit.com
  - DOMAIN-KEYWORD,avito
- - DOMAIN-SUFFIX,snappy-driver-installer.org
- - DOMAIN-KEYWORD,snappy-driver-installer
+ - DOMAIN-KEYWORD,snappy-driver
  - PROCESS-NAME-REGEX,(?i)SDIO
