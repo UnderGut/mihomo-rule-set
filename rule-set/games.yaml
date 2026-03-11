@@ -752,6 +752,9 @@ payload:
   - PROCESS-NAME,UNDERTALE.exe
   - PROCESS-NAME,DELTARUNE.exe
   - PROCESS-NAME,SURVEY_PROGRAM.exe
+  
+  #Ark
+  - PROCESS-NAME,ArkAscended.exe
 
 
   # ═══════════════════════════════════════
