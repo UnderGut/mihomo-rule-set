@@ -781,3 +781,8 @@ payload:
   # GOG Galaxy
   - DOMAIN-SUFFIX,gog.com
   - DOMAIN-SUFFIX,gogalaxy.com
+
+
+
+  - PROCESS-NAME,Back4Blood.exe
+  
