@@ -53,3 +53,5 @@ payload:
  - DOMAIN-KEYWORD,avito
  - DOMAIN-KEYWORD,snappy-driver
  - PROCESS-NAME-REGEX,(?i)SDIO
+ - PROCESS-NAME,WarcraftRecorder.exe
+ - DOMAIN-SUFFIX,warcraftrecorder.com
