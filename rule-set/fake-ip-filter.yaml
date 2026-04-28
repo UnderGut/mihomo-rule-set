@@ -1,0 +1,79 @@
+# ═══════════════════════════════════════════════════════
+#
+#   Fake-IP Filter (Mihomo / ClashMeta)
+#
+#   Файл используется как rule-provider для секции
+#   dns.fake-ip-filter — домены отсюда РЕЗОЛВЯТСЯ
+#   в реальный IP, а не в fake-ip 198.18.x.x.
+#
+#   Подключение в конфиге:
+#     rule-providers:
+#       fake-ip-filter:
+#         type: http
+#         behavior: classical
+#         format: yaml
+#         interval: 86400
+#         url: https://github.com/UnderGut/mihomo-rule-set/raw/main/rule-set/fake-ip-filter.yaml
+#         path: ./rule-sets/fake-ip-filter.yaml
+#
+#     dns:
+#       enhanced-mode: fake-ip
+#       fake-ip-filter:
+#         - rule-set:fake-ip-filter
+#         - "+.lan"
+#         - "+.local"
+#
+#   Зачем нужно:
+#   - Античиты (EAC, BattlEye, Vanguard) палят fake-ip и кикают.
+#   - VoIP / WebRTC (Vivox, Discord voice) — UDP по реальному IP.
+#   - P2P / lobby (Steam, FiveM, peer-to-peer matchmaking).
+#   - STUN / NTP / DNS-серверы.
+#
+#   Поддерживаемые типы правил (classical):
+#     DOMAIN          — точный домен
+#     DOMAIN-SUFFIX   — суффикс
+#     DOMAIN-KEYWORD  — подстрока
+#
+# ═══════════════════════════════════════════════════════
+
+payload:
+
+  # ═══════════════════════════════════════
+  #          § 1  ИГРЫ / GAMES
+  # ═══════════════════════════════════════
+
+  # Back 4 Blood (Turtle Rock Studios / WB)
+  - DOMAIN-SUFFIX,back4blood.com
+  - DOMAIN-SUFFIX,turtlerockstudios.com
+  - DOMAIN-SUFFIX,wbgames.com
+  - DOMAIN-SUFFIX,wbplay.com
+  - DOMAIN-SUFFIX,warnerbrosgames.com
+  - DOMAIN-SUFFIX,wbagora.com
+  - DOMAIN-SUFFIX,wbinsights.com
+  - DOMAIN-SUFFIX,4vngame.net
+
+
+  # ═══════════════════════════════════════
+  #     § 2  АНТИЧИТЫ / ANTI-CHEAT
+  # ═══════════════════════════════════════
+
+  # Easy Anti-Cheat (Epic / Kamu)
+  - DOMAIN-SUFFIX,easy.ac
+  - DOMAIN-SUFFIX,easyanticheat.net
+
+
+  # ═══════════════════════════════════════
+  #       § 3  VOIP / WEBRTC
+  # ═══════════════════════════════════════
+
+  # Vivox (B4B, Sea of Thieves, EVE Online, Halo Infinite)
+  - DOMAIN-SUFFIX,vivox.com
+
+
+  # ═══════════════════════════════════════
+  #    § 4  EPIC / EOS (Online Services)
+  # ═══════════════════════════════════════
+
+  # epicgames.com уже залит как DIRECT через rule-set, но
+  # для fake-ip он критичен (EOS lobby / matchmaking по IP).
+  - DOMAIN-SUFFIX,epicgames.dev
