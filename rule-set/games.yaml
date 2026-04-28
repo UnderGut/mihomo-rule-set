@@ -1,7 +1,7 @@
 payload:
   # ═══════════════════════════════════════════════════════
   #
-  #  UnderVPN — Правила для игр (Mihomo / ClashMeta)
+  #  Правила для игр (Mihomo / ClashMeta)
   #
   #  Файл используется как rule-provider type: http
   #  behavior: classical | format: yaml
@@ -756,6 +756,26 @@ payload:
   #Ark
   - PROCESS-NAME,ArkAscended.exe
 
+  # Back 4 Blood (Turtle Rock Studios / Warner Bros.)
+  # ⚠️ start_protected_game.exe / EasyAntiCheat.exe — см. § 1 (общие античиты)
+  # ⚠️ Back4Blood-Win64-Shipping.exe — ловится § 22 Win64-Shipping catch-all
+  - PROCESS-NAME,Back4Blood.exe
+  - PROCESS-NAME,eac_launcher.exe
+  - PROCESS-NAME,EACLaunch.exe
+  - PROCESS-NAME-REGEX,(?i).*(back4blood|b4b).*
+  - DOMAIN-SUFFIX,back4blood.com
+  - DOMAIN-SUFFIX,turtlerockstudios.com
+  - DOMAIN-SUFFIX,wbgames.com
+  - DOMAIN-SUFFIX,wbplay.com
+  - DOMAIN-SUFFIX,warnerbrosgames.com
+  - DOMAIN-SUFFIX,wbagora.com
+  - DOMAIN-SUFFIX,wbinsights.com
+  - DOMAIN-SUFFIX,4vngame.net
+  - DOMAIN-SUFFIX,vivox.com
+  - DOMAIN-SUFFIX,easy.ac
+  - DOMAIN-SUFFIX,easyanticheat.net
+  - DOMAIN-SUFFIX,epicgames.dev
+
 
   # ═══════════════════════════════════════
   #  § 22  UNREAL ENGINE (catch-all)
@@ -782,7 +802,3 @@ payload:
   - DOMAIN-SUFFIX,gog.com
   - DOMAIN-SUFFIX,gogalaxy.com
 
-
-
-  - PROCESS-NAME,Back4Blood.exe
-  
