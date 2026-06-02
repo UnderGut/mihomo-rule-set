@@ -1,2 +1,12 @@
 payload:
- - DOMAIN-SUFFIX,log.strm.yandex.ru
+  # ═══════════════════════════════════════
+  #  REJECT-DROP — телеметрия / трекинг
+  #  Используется как drop-list (REJECT-DROP)
+  #  во всех MIHOMO-шаблонах.
+  # ═══════════════════════════════════════
+
+  # Yandex streaming telemetry
+  - DOMAIN-SUFFIX,log.strm.yandex.ru
+
+  # Battle.net / Blizzard telemetry (игры работают без неё)
+  - DOMAIN,telemetry-in.battle.net

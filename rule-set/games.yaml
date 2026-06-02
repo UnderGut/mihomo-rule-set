@@ -797,6 +797,324 @@ payload:
 
 
   # ═══════════════════════════════════════
+  #   § 24  BLIZZARD / ACTIVISION (доп.)
+  # ═══════════════════════════════════════
+
+  # Heroes of the Storm
+  - PROCESS-NAME,HeroesOfTheStorm_x64.exe
+  # Diablo II: Resurrected
+  - PROCESS-NAME,D2R.exe
+  # Diablo III
+  - PROCESS-NAME,Diablo III64.exe
+  # Diablo Immortal (PC)
+  - PROCESS-NAME,DiabloImmortal.exe
+  # Warcraft III: Reforged
+  - PROCESS-NAME,Warcraft III.exe
+  # Crash / Spyro / прочее Activision → лаунчер Battle.net (§ 4)
+
+
+  # ═══════════════════════════════════════
+  #   § 25  MOBA / КАРТОЧНЫЕ / АВТОБАТТЛЕРЫ
+  # ═══════════════════════════════════════
+
+  # SMITE / SMITE 2
+  - PROCESS-NAME,Smite.exe
+  # Legends of Runeterra
+  - PROCESS-NAME,LoR.exe
+  # Gwent: The Witcher Card Game
+  - PROCESS-NAME,Gwent.exe
+  # Hearthstone / TFT → см. § 4 / § 5
+
+
+  # ═══════════════════════════════════════
+  #   § 26  BETHESDA / ID / ZENIMAX
+  # ═══════════════════════════════════════
+
+  # The Elder Scrolls V: Skyrim (SE/AE/Legendary)
+  - PROCESS-NAME,SkyrimSE.exe
+  - PROCESS-NAME,TESV.exe
+  # Fallout 4
+  - PROCESS-NAME,Fallout4.exe
+  # Fallout 76
+  - PROCESS-NAME,Fallout76.exe
+  # Starfield
+  - PROCESS-NAME,Starfield.exe
+  # DOOM Eternal
+  - PROCESS-NAME,DOOMEternalx64vk.exe
+  # DOOM (2016)
+  - PROCESS-NAME,Doomx64vk.exe
+  # Wolfenstein II: The New Colossus
+  - PROCESS-NAME,NewColossus_x64vk.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 27  JRPG / ACTION-RPG (доп.)
+  # ═══════════════════════════════════════
+
+  # Persona 5 Royal
+  - PROCESS-NAME,P5R.exe
+  # Final Fantasy XV
+  - PROCESS-NAME,ffxv_s.exe
+  # Final Fantasy VII Remake Intergrade
+  - PROCESS-NAME,ff7remake_.exe
+  # NieR: Automata
+  - PROCESS-NAME,NieRAutomata.exe
+  # Tales of Arise
+  - PROCESS-NAME,Tales of Arise.exe
+  # Like a Dragon / Yakuza (серия)
+  - PROCESS-NAME-REGEX,(?i)(likeadragon|^yakuza)
+  # Kingdom Come: Deliverance I / II
+  - PROCESS-NAME,KingdomCome.exe
+  - PROCESS-NAME,KCD2.exe
+  # Wo Long: Fallen Dynasty
+  - PROCESS-NAME,WoLong.exe
+  # Grim Dawn
+  - PROCESS-NAME,Grim Dawn.exe
+  # Last Epoch
+  - PROCESS-NAME,Last Epoch.exe
+  # Torchlight: Infinite
+  - PROCESS-NAME,Torchlight.exe
+  # Mass Effect: Legendary Edition
+  - PROCESS-NAME,MassEffect1.exe
+  - PROCESS-NAME,MassEffectLauncher.exe
+  # Dragon Age: The Veilguard
+  - PROCESS-NAME,DragonAgeTheVeilguard.exe
+  # Disco Elysium
+  - PROCESS-NAME,disco.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 28  ШУТЕРЫ (доп.)
+  # ═══════════════════════════════════════
+
+  # Battlefield 1 / V / 4
+  - PROCESS-NAME,bf1.exe
+  - PROCESS-NAME,bfv.exe
+  - PROCESS-NAME,bf4.exe
+  # Star Wars Battlefront II
+  - PROCESS-NAME,starwarsbattlefrontii.exe
+  # Titanfall 2
+  - PROCESS-NAME,Titanfall2.exe
+  # Halo Infinite
+  - PROCESS-NAME,HaloInfinite.exe
+  # Quake Champions
+  - PROCESS-NAME,QuakeChampions.exe
+  # Paladins
+  - PROCESS-NAME,Paladins.exe
+  # Warface
+  - PROCESS-NAME,Warface.exe
+  # PlanetSide 2
+  - PROCESS-NAME,PlanetSide2_x64.exe
+  # Enlisted
+  - PROCESS-NAME,enlisted.exe
+  # Sniper Elite 5
+  - PROCESS-NAME,SniperElite5.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 29  MMO / ONLINE (доп.)
+  # ═══════════════════════════════════════
+
+  # RuneScape / Old School RuneScape
+  - PROCESS-NAME,rs2client.exe
+  - PROCESS-NAME,RuneScape.exe
+  - PROCESS-NAME,osclient.exe
+  - PROCESS-NAME,RuneLite.exe
+  # EVE Online  ⚠️ exefile.exe — общее имя, но это реальный exe EVE
+  - PROCESS-NAME,exefile.exe
+  # Star Citizen
+  - PROCESS-NAME,StarCitizen.exe
+  # Star Wars: The Old Republic
+  - PROCESS-NAME,swtor.exe
+  # Phantasy Star Online 2
+  - PROCESS-NAME,pso2.exe
+  # TERA
+  - PROCESS-NAME,TERA.exe
+  # Blade & Soul NEO
+  - PROCESS-NAME,BNSR.exe
+  # Lineage 2
+  - PROCESS-NAME,l2.exe
+  # MapleStory
+  - PROCESS-NAME,MapleStory.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 30  SURVIVAL / SANDBOX (доп.)
+  # ═══════════════════════════════════════
+
+  # Green Hell
+  - PROCESS-NAME,GreenHell.exe
+  # The Long Dark  ⚠️ tld.exe — короткое имя
+  - PROCESS-NAME,tld.exe
+  # Project Zomboid
+  - PROCESS-NAME,ProjectZomboid64.exe
+  # Core Keeper
+  - PROCESS-NAME,CoreKeeper.exe
+  # Vintage Story
+  - PROCESS-NAME,Vintagestory.exe
+  # Eco  ⚠️ Eco.exe — короткое имя
+  - PROCESS-NAME,Eco.exe
+  # Empyrion: Galactic Survival
+  - PROCESS-NAME,Empyrion.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 31  СТРОИТЕЛЬНЫЕ / SIM (доп.)
+  # ═══════════════════════════════════════
+
+  # Planet Coaster 1 / 2
+  - PROCESS-NAME,PlanetCoaster.exe
+  # Planet Zoo
+  - PROCESS-NAME,PlanetZoo.exe
+  # Anno 1800
+  - PROCESS-NAME,Anno1800.exe
+  # Tropico 6
+  - PROCESS-NAME,Tropico6.exe
+  # Oxygen Not Included
+  - PROCESS-NAME,OxygenNotIncluded.exe
+  # Prison Architect
+  - PROCESS-NAME,Prison Architect64.exe
+  # Kerbal Space Program 1 / 2
+  - PROCESS-NAME,KSP_x64.exe
+  - PROCESS-NAME,KSP2_x64.exe
+  # Dyson Sphere Program
+  - PROCESS-NAME,DSPGAME.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 32  СТРАТЕГИИ (доп.)
+  # ═══════════════════════════════════════
+
+  # Company of Heroes 3
+  - PROCESS-NAME,RelicCoH3.exe
+  # Total War: Three Kingdoms / Pharaoh
+  - PROCESS-NAME,Three_Kingdoms.exe
+  - PROCESS-NAME,Pharaoh.exe
+  # Age of Mythology: Retold
+  - PROCESS-NAME,AoMRT_s.exe
+  # Mount & Blade II: Bannerlord
+  - PROCESS-NAME,Bannerlord.exe
+  # They Are Billions
+  - PROCESS-NAME,TheyAreBillions.exe
+  # Northgard
+  - PROCESS-NAME,Northgard.exe
+  # WARNO
+  - PROCESS-NAME,WARNO.exe
+  # Frostpunk (оригинал)
+  - PROCESS-NAME,Frostpunk.exe
+  # Surviving Mars
+  - PROCESS-NAME,MarsLauncher.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 33  ГОНКИ / СИМ (доп.)
+  # ═══════════════════════════════════════
+
+  # F1 24 / F1 23
+  - PROCESS-NAME,F1_24.exe
+  - PROCESS-NAME,F1_23.exe
+  # DiRT Rally 2.0
+  - PROCESS-NAME,dirtrally2.exe
+  # The Crew 2
+  - PROCESS-NAME,TheCrew2.exe
+  # Wreckfest
+  - PROCESS-NAME,Wreckfest_x64.exe
+  # Trackmania
+  - PROCESS-NAME,Trackmania.exe
+  # SnowRunner / MudRunner
+  - PROCESS-NAME,SnowRunner.exe
+  - PROCESS-NAME,MudRunner.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 34  ФАЙТИНГИ (доп.)
+  # ═══════════════════════════════════════
+
+  # Mortal Kombat 11
+  - PROCESS-NAME,MK11.exe
+  # Dragon Ball FighterZ
+  - PROCESS-NAME,DBFighterZ.exe
+  # Skullgirls
+  - PROCESS-NAME,SkullGirls.exe
+  # Rivals of Aether
+  - PROCESS-NAME,RivalsofAether.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 35  КООП / ПАТИ (доп.)
+  # ═══════════════════════════════════════
+
+  # Overcooked! 2
+  - PROCESS-NAME,Overcooked2.exe
+  # Human: Fall Flat
+  - PROCESS-NAME,HumanFallFlat.exe
+  # Risk of Rain 2
+  - PROCESS-NAME,Risk of Rain 2.exe
+  # Warhammer: Vermintide 2
+  - PROCESS-NAME,vermintide2.exe
+  # Killing Floor 2
+  - PROCESS-NAME,KFGame.exe
+  # PAYDAY 2
+  - PROCESS-NAME,payday2_win32_release.exe
+  # Castle Crashers
+  - PROCESS-NAME,CastleCrashers.exe
+  # Gang Beasts
+  - PROCESS-NAME,GangBeasts.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 36  ХОРРОР
+  # ═══════════════════════════════════════
+
+  # Resident Evil 2 / 3 / 4 / 7 / Village
+  - PROCESS-NAME,re2.exe
+  - PROCESS-NAME,re3.exe
+  - PROCESS-NAME,re4.exe
+  - PROCESS-NAME,re7.exe
+  - PROCESS-NAME,re8.exe
+  # Dead Space (Remake)
+  - PROCESS-NAME,Dead Space.exe
+  # Alan Wake 2
+  - PROCESS-NAME,AlanWake2.exe
+  # DEVOUR
+  - PROCESS-NAME,DEVOUR.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 37  ROGUELIKE / INDIE
+  # ═══════════════════════════════════════
+
+  # Vampire Survivors
+  - PROCESS-NAME,VampireSurvivors.exe
+  # Slay the Spire
+  - PROCESS-NAME,SlayTheSpire.exe
+  # Balatro
+  - PROCESS-NAME,Balatro.exe
+  # The Binding of Isaac: Repentance
+  - PROCESS-NAME,isaac-ng.exe
+  # Enter the Gungeon
+  - PROCESS-NAME,EtG.exe
+  # Cult of the Lamb
+  - PROCESS-NAME,Cult Of The Lamb.exe
+  # Tunic
+  - PROCESS-NAME,TUNIC.exe
+  # Inscryption
+  - PROCESS-NAME,Inscryption.exe
+
+
+  # ═══════════════════════════════════════
+  #   § 38  СПОРТ
+  # ═══════════════════════════════════════
+
+  # NBA 2K25
+  - PROCESS-NAME,NBA2K25.exe
+  # WWE 2K24
+  - PROCESS-NAME,WWE2K24.exe
+  # eFootball
+  - PROCESS-NAME,eFootball.exe
+
+
+  # ═══════════════════════════════════════
   #  § 22  UNREAL ENGINE (catch-all)
   # ═══════════════════════════════════════
   # ⚠️ Широкое правило: ловит ВСЕ процессы
