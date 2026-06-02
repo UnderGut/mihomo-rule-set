@@ -1,44 +1,63 @@
 payload:
- - DOMAIN-SUFFIX,amazonaws.com
- - DOMAIN-SUFFIX,sfx.ovh
- - DOMAIN-SUFFIX,ovh.com
- - DOMAIN-SUFFIX,dubybot.live
- - DOMAIN-SUFFIX,genderize.io
- - DOMAIN-SUFFIX,kingsgroupgames.com
- - DOMAIN-SUFFIX,funplus.com
- - DOMAIN-SUFFIX,ilivedata.com
- - DOMAIN-SUFFIX,frankfurter.dev
- - DOMAIN-SUFFIX,jmp.blue
- - DOMAIN-SUFFIX,habr.com
- - DOMAIN-SUFFIX,kemono.su
- - DOMAIN-SUFFIX,jut.su
- - DOMAIN-SUFFIX,kara.su
- - DOMAIN-SUFFIX,theins.ru
- - DOMAIN-SUFFIX,tvrain.ru
- - DOMAIN-SUFFIX,echo.msk.ru
- - DOMAIN-SUFFIX,the-village.ru
- - DOMAIN-SUFFIX,procloud.ru
- - DOMAIN-SUFFIX,snob.ru
- - DOMAIN-SUFFIX,novayagazeta.ru
- - DOMAIN-SUFFIX,moscowtimes.ru
- - DOMAIN-SUFFIX,simplearmory.com
- - DOMAIN-SUFFIX,wow-professions.com
- - DOMAIN-KEYWORD,kingsgroupgames
- - DOMAIN-KEYWORD,bible-api
- - DOMAIN-KEYWORD,animego
- - DOMAIN-KEYWORD,yummyanime
- - DOMAIN-KEYWORD,yummy-anime
- - DOMAIN-KEYWORD,animeportal
- - DOMAIN-KEYWORD,anime-portal
- - DOMAIN-KEYWORD,animedub
- - DOMAIN-KEYWORD,anidub
- - DOMAIN-KEYWORD,animelib
- - DOMAIN-KEYWORD,ikianime
- - DOMAIN-KEYWORD,anilibria
- - DOMAIN-KEYWORD,warcraftlogs
- - PROCESS-NAME,Overwolf.exe
- - PROCESS-NAME,Curseforge.exe
- - PROCESS-NAME,WowUp-CF.exe
- - PROCESS-NAME,WowUp.exe
- - PROCESS-NAME,TSMApplication.exe
+  # ═══════════════════════════════════════════════════════
+  #  Ресурсы → PROXY (через VPN-туннель)
+  #  Заблокированное/геоограниченное, что должно идти
+  #  через зарубежный выход.
+  # ═══════════════════════════════════════════════════════
 
+  # ── ☁️ Облако / хостинг ──
+  # ⚠️ ШИРОКО: amazonaws/ovh — это целые облака (тысячи
+  #    сервисов). Гонит весь AWS/OVH через VPN. Рекомендуется
+  #    сузить до конкретных поддоменов нужного сервиса.
+  - DOMAIN-SUFFIX,amazonaws.com
+  - DOMAIN-SUFFIX,ovh.com
+  - DOMAIN-SUFFIX,sfx.ovh
+  - DOMAIN-SUFFIX,procloud.ru
+
+  # ── 📰 РФ-независимые СМИ (заблокированы → proxy) ──
+  - DOMAIN-SUFFIX,theins.ru
+  - DOMAIN-SUFFIX,tvrain.ru
+  - DOMAIN-SUFFIX,echo.msk.ru
+  - DOMAIN-SUFFIX,the-village.ru
+  - DOMAIN-SUFFIX,snob.ru
+  - DOMAIN-SUFFIX,novayagazeta.ru
+  - DOMAIN-SUFFIX,moscowtimes.ru
+
+  # ── 🎌 Аниме / манга (заблокированы → proxy) ──
+  - DOMAIN-SUFFIX,jut.su
+  - DOMAIN-SUFFIX,kara.su
+  - DOMAIN-SUFFIX,kemono.su
+  - DOMAIN-KEYWORD,anilibria
+  - DOMAIN-KEYWORD,animelib
+  - DOMAIN-KEYWORD,animego
+  - DOMAIN-KEYWORD,anidub
+  - DOMAIN-KEYWORD,animedub
+  - DOMAIN-KEYWORD,yummyanime
+  - DOMAIN-KEYWORD,yummy-anime
+  - DOMAIN-KEYWORD,animeportal
+  - DOMAIN-KEYWORD,anime-portal
+  - DOMAIN-KEYWORD,ikianime
+
+  # ── 🎮 WoW-аддоны / гейм-тулзы → proxy ──
+  - DOMAIN-SUFFIX,simplearmory.com
+  - DOMAIN-SUFFIX,wow-professions.com
+  - DOMAIN-KEYWORD,warcraftlogs
+  - PROCESS-NAME,Overwolf.exe
+  - PROCESS-NAME,Curseforge.exe
+  - PROCESS-NAME,WowUp-CF.exe
+  - PROCESS-NAME,WowUp.exe
+  - PROCESS-NAME,TSMApplication.exe
+
+  # ── 🎮 Игровые сервисы / издатели ──
+  - DOMAIN-SUFFIX,kingsgroupgames.com
+  - DOMAIN-KEYWORD,kingsgroupgames
+  - DOMAIN-SUFFIX,funplus.com
+  - DOMAIN-SUFFIX,ilivedata.com
+  - DOMAIN-SUFFIX,dubybot.live
+
+  # ── 🛠 API / прочее ──
+  - DOMAIN-SUFFIX,habr.com
+  - DOMAIN-SUFFIX,genderize.io
+  - DOMAIN-SUFFIX,frankfurter.dev
+  - DOMAIN-SUFFIX,jmp.blue
+  - DOMAIN-KEYWORD,bible-api

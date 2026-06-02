@@ -330,6 +330,9 @@ payload:
   #     § 12  MMORPG / ONLINE RPG
   # ═══════════════════════════════════════
 
+  # Throne and Liberty (NCSoft / Amazon Games)
+  - PROCESS-NAME,TL.exe
+
   # Final Fantasy XIV
   - PROCESS-NAME,ffxiv_dx11.exe
   - PROCESS-NAME,ffxiv.exe
@@ -421,6 +424,21 @@ payload:
   #  § 14  ШУТЕРЫ / FPS / BATTLE ROYALE
   # ═══════════════════════════════════════
 
+  # Call of Duty (Warzone / Modern Warfare / Black Ops)
+  - PROCESS-NAME,cod.exe
+  - DOMAIN-SUFFIX,callofduty.com
+  - DOMAIN-SUFFIX,activision.com
+  - DOMAIN-SUFFIX,demonware.net
+
+  # Delta Force (2024, Team Jade)
+  - PROCESS-NAME,DeltaForceClient.exe
+
+  # Warhammer 40,000: Space Marine 2 (Saber)
+  - PROCESS-NAME,Warhammer 40000 Space Marine 2.exe
+
+  # Warhammer 40,000: Darktide (Fatshark)
+  - PROCESS-NAME,Darktide.exe
+
   # PUBG
   - PROCESS-NAME,ExecPubg.exe
   - PROCESS-NAME,TslGame_ZK.exe
@@ -496,6 +514,9 @@ payload:
   #    § 15  SURVIVAL / SANDBOX / CRAFT
   # ═══════════════════════════════════════
 
+  # Enshrouded (Keen Games)
+  - PROCESS-NAME,enshrouded.exe
+
   # Rust
   - PROCESS-NAME-REGEX,(?i).*RustClient.*
 
@@ -564,14 +585,18 @@ payload:
   # Grounded (UE — caught by Win64-Shipping regex too)
   - PROCESS-NAME,Maine-Win64-Shipping.exe
 
-  # Minecraft  ⚠️ javaw.exe ловит ВСЕ Java-приложения
+  # Minecraft (Java ⚠️ javaw.exe ловит ВСЕ Java-приложения + Bedrock)
   - PROCESS-NAME,Minecraft.exe
+  - PROCESS-NAME,Minecraft.Windows.exe
   - PROCESS-NAME,javaw.exe
 
 
   # ═══════════════════════════════════════
   #      § 16  СТРАТЕГИИ / STRATEGY
   # ═══════════════════════════════════════
+
+  # Frostpunk 2 (11 bit studios)
+  - PROCESS-NAME,Frostpunk2.exe
 
   # Civilization VI / VII
   - PROCESS-NAME,CivilizationVI.exe
@@ -673,9 +698,6 @@ payload:
   # REPO
   - PROCESS-NAME,REPO.exe
 
-  # GTFO
-  - PROCESS-NAME,GTFO.exe
-
   # Party Animals
   - PROCESS-NAME,PartyAnimals.exe
 
@@ -752,9 +774,6 @@ payload:
   - PROCESS-NAME,UNDERTALE.exe
   - PROCESS-NAME,DELTARUNE.exe
   - PROCESS-NAME,SURVEY_PROGRAM.exe
-  
-  #Ark
-  - PROCESS-NAME,ArkAscended.exe
 
   # Back 4 Blood (Turtle Rock Studios / Warner Bros.)
   # ⚠️ start_protected_game.exe / EasyAntiCheat.exe — см. § 1 (общие античиты)
