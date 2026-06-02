@@ -11,51 +11,108 @@ payload:
   #     работает вовсе, на Android процессы = package-имена
   #     (не .exe). Десктопный games.yaml (с .exe) — отдельно.
   #
+  #  ⚠️ РФ-издатели (my.games/mail.ru/Kefir/1C-Lesta/Pixonic)
+  #     сюда НЕ кладём — им место в direct, не в 🕹️ Игры.
+  #
   #  Подключается ТОЛЬКО в Mihomo-iOS / Mihomo-Android шаблонах
   #  как rule-provider `games-mobile` → группа 🕹️ Игры.
+  #  ~200 доменов топовых мобильных игр и издателей.
   # ═══════════════════════════════════════════════════════
 
-  # ── 🎴 Гача / RPG (топ мобайла) ──
+  # ── 🎴 Гача / RPG (азиатские топы) ──
   # HoYoverse — Genshin Impact, Honkai: Star Rail, ZZZ, Honkai Impact 3rd
   - DOMAIN-SUFFIX,hoyoverse.com
   - DOMAIN-SUFFIX,mihoyo.com
   - DOMAIN-SUFFIX,hoyolab.com
   - DOMAIN-SUFFIX,yuanshen.com
+  - DOMAIN-SUFFIX,cognosphere.com
   # Kuro Games — Wuthering Waves, Punishing: Gray Raven
   - DOMAIN-SUFFIX,kurogames.com
   - DOMAIN-SUFFIX,kurogame.com
-  # Yostar — Arknights, Azur Lane, Blue Archive (global)
+  # Hypergryph — Arknights, Arknights: Endfield (Gryphline — global label)
+  - DOMAIN-SUFFIX,hypergryph.com
+  - DOMAIN-SUFFIX,gryphline.com
+  # Yostar — Azur Lane, Blue Archive (global), Arknights (global pub)
   - DOMAIN-SUFFIX,yostar.co.jp
   - DOMAIN-SUFFIX,yostar.net
   - DOMAIN-SUFFIX,yo-star.com
   # Cygames — Uma Musume, Granblue Fantasy, Princess Connect, Shadowverse
   - DOMAIN-SUFFIX,cygames.jp
   - DOMAIN-SUFFIX,mobage.jp
-  # Smilegate / STOVE — Epic Seven
-  - DOMAIN-SUFFIX,onstove.com
+  # Aniplex — Fate/Grand Order
+  - DOMAIN-SUFFIX,aniplex.co.jp
+  # GungHo — Puzzle & Dragons
+  - DOMAIN-SUFFIX,gungho.jp
+  # Mixi — Monster Strike
+  - DOMAIN-SUFFIX,mixi.co.jp
+  # Colopl — White Cat Project, Quiz RPG
+  - DOMAIN-SUFFIX,colopl.co.jp
+  # KLab — Love Live! School Idol Festival
+  - DOMAIN-SUFFIX,klab.com
+  # Bushiroad — BanG Dream!, D4DJ
+  - DOMAIN-SUFFIX,bushiroad.com
+  # Akatsuki — игры/издатель
+  - DOMAIN-SUFFIX,aktsk.jp
+  # GREE / Wright Flyer Studios
+  - DOMAIN-SUFFIX,gree.net
   # Com2uS — Summoners War
   - DOMAIN-SUFFIX,com2us.com
   - DOMAIN-SUFFIX,withhive.com
+  - DOMAIN-SUFFIX,gamevil.com
+  # Smilegate / STOVE — Epic Seven, Lost Ark Mobile
+  - DOMAIN-SUFFIX,onstove.com
+  - DOMAIN-SUFFIX,smilegate.com
+  # Shift Up — Goddess of Victory: Nikke
+  - DOMAIN-SUFFIX,shiftup.co.kr
+  # Bluepoch — Reverse: 1999
+  - DOMAIN-SUFFIX,bluepoch.com
+  # Project Moon — Limbus Company
+  - DOMAIN-SUFFIX,projectmoon.studio
+  # Infold / Papergames — Infinity Nikke, Love and Deepspace
+  - DOMAIN-SUFFIX,infoldgames.com
+  - DOMAIN-SUFFIX,papergames.cn
+  # Sunborn — Girls' Frontline
+  - DOMAIN-SUFFIX,sunborngame.com
+  # Seasun — Snowbreak: Containment Zone
+  - DOMAIN-SUFFIX,seasungames.com
   # Square Enix — FFBE, Romancing SaGa, DQ Walk
   - DOMAIN-SUFFIX,square-enix.com
   - DOMAIN-SUFFIX,square-enix-games.com
-  # Bandai Namco — Dragon Ball Legends, One Piece, Tales of
-  - DOMAIN-SUFFIX,bandainamcoent.com
-  - DOMAIN-SUFFIX,bandainamcoent.eu
-  # Netmarble — Marvel Future Fight, Seven Knights, Solo Leveling: Arise
-  - DOMAIN-SUFFIX,netmarble.com
-  # Nexon — Blue Archive (JP/KR), MapleStory M, V4
-  - DOMAIN-SUFFIX,nexon.com
+
+  # ── 🏯 MMORPG / openworld мобильные ──
   # NCSoft — Lineage 2M/W, Blade & Soul
   - DOMAIN-SUFFIX,ncsoft.com
   - DOMAIN-SUFFIX,plaync.com
+  # Nexon — Blue Archive (JP/KR), MapleStory M, V4
+  - DOMAIN-SUFFIX,nexon.com
   # Pearl Abyss — Black Desert Mobile
   - DOMAIN-SUFFIX,pearlabyss.com
-  # Level Infinite — Tower of Fantasy
+  # Level Infinite — Tower of Fantasy, Nikke (pub)
   - DOMAIN-SUFFIX,levelinfinite.com
   - DOMAIN-SUFFIX,toweroffantasy-global.com
+  # Netmarble — Ni no Kuni, Seven Knights, Solo Leveling: Arise
+  - DOMAIN-SUFFIX,netmarble.com
+  # Kakao Games — Odin, Ares
+  - DOMAIN-SUFFIX,kakaogames.com
+  # Wemade — MIR4, Night Crows
+  - DOMAIN-SUFFIX,wemade.com
+  - DOMAIN-SUFFIX,wemixnetwork.com
+  # Webzen — MU Origin/Archangel
+  - DOMAIN-SUFFIX,webzen.com
+  # Gravity — Ragnarok M/Origin
+  - DOMAIN-SUFFIX,gravity.co.kr
+  - DOMAIN-SUFFIX,gnjoy.com
+  # Neowiz — Brown Dust 2
+  - DOMAIN-SUFFIX,neowiz.com
+  # Perfect World — Perfect World Mobile
+  - DOMAIN-SUFFIX,pwrd.com
+  - DOMAIN-SUFFIX,perfectworld.com
+  # Archosaur — Dragon Raja, Noah's Heart
+  - DOMAIN-SUFFIX,archosaur.com
+  # LINE Games
+  - DOMAIN-SUFFIX,linegames.com
 
-  # ── 🔫 MOBA / шутеры мобильные ──
+  # ── ⚔️ MOBA ──
   # Riot — Wild Rift, Valorant Mobile, TFT, Legends of Runeterra
   - DOMAIN-SUFFIX,riotgames.com
   - DOMAIN-SUFFIX,leagueoflegends.com
@@ -66,14 +123,18 @@ payload:
   # Moonton — Mobile Legends: Bang Bang
   - DOMAIN-SUFFIX,mobilelegends.com
   - DOMAIN-SUFFIX,moonton.com
-  # Tencent / Level Infinite — PUBG Mobile, Honor of Kings, Arena of Valor
+  # Tencent — Honor of Kings, Arena of Valor (global infra)
+  - DOMAIN-SUFFIX,honorofkings.com
+  - DOMAIN-SUFFIX,tencentgames.com
+  - DOMAIN-SUFFIX,intlgame.com
+
+  # ── 🔫 Шутеры / Battle Royale мобильные ──
+  # PUBG Mobile (Tencent / Krafton)
   - DOMAIN-SUFFIX,pubgmobile.com
   - DOMAIN-SUFFIX,igamecj.com
-  - DOMAIN-SUFFIX,honorofkings.com
-  # Krafton — PUBG Mobile / BGMI
   - DOMAIN-SUFFIX,krafton.com
   - DOMAIN-SUFFIX,pubg.com
-  # Garena — Free Fire, AoV
+  # Garena — Free Fire
   - DOMAIN-SUFFIX,garena.com
   # Activision — Call of Duty Mobile, Warzone Mobile
   - DOMAIN-SUFFIX,callofduty.com
@@ -81,8 +142,12 @@ payload:
   - DOMAIN-SUFFIX,demonware.net
   # Axlebolt — Standoff 2
   - DOMAIN-SUFFIX,axlebolt.com
+  # Critical Force — Critical Ops
+  - DOMAIN-SUFFIX,criticalforce.fi
+  # Madfinger — Shadowgun
+  - DOMAIN-SUFFIX,madfingergames.com
 
-  # ── 🏰 Стратегии / выживание мобильные ──
+  # ── 🏰 Стратегии / 4X / выживание ──
   # Supercell — Clash of Clans, Clash Royale, Brawl Stars, Hay Day, Squad Busters
   - DOMAIN-SUFFIX,supercell.com
   - DOMAIN-SUFFIX,supercellid.com
@@ -97,40 +162,232 @@ payload:
   - DOMAIN-SUFFIX,plarium.com
   # Scopely — Monopoly GO, Marvel Strike Force, Stumble Guys
   - DOMAIN-SUFFIX,scopely.com
+  # Evony
+  - DOMAIN-SUFFIX,evony.com
+  # ONEMT — Kingdom Guard, Sea of Conquest
+  - DOMAIN-SUFFIX,onemt.com
+  # Camel Games — Age of Apes
+  - DOMAIN-SUFFIX,camelgames.com
+  # tap4fun — Kiss of War, Invasion
+  - DOMAIN-SUFFIX,tap4fun.com
+  # ELEX — Clash of Kings
+  - DOMAIN-SUFFIX,elex.com
+  # Youzu — Game of Thrones: Winter is Coming
+  - DOMAIN-SUFFIX,youzu.com
+  # Yotta Games — Mafia City, Kiss of War
+  - DOMAIN-SUFFIX,yottagames.com
+  # Joycity — Crossfire: Warzone, Game of Dice
+  - DOMAIN-SUFFIX,joycity.com
+  # 37Games — Puzzles & Survival
+  - DOMAIN-SUFFIX,37games.com
+  # Last Asylum: Plague (37Games / Cloudwalker)
+  - DOMAIN-SUFFIX,lastasylumplague.com
+  # Goodgame Studios — Empire
+  - DOMAIN-SUFFIX,goodgamestudios.com
+  # InnoGames — Forge of Empires, Elvenar
+  - DOMAIN-SUFFIX,innogames.com
+  # Nexters — Hero Wars
+  - DOMAIN-SUFFIX,nexters.com
+  # GTArcade — Legend of Mushroom, Eternal Fury
+  - DOMAIN-SUFFIX,gtarcade.com
+  # 6waves
+  - DOMAIN-SUFFIX,6waves.com
 
-  # ── 🍬 Казуальные / мидкор ──
+  # ── 🃏 Карты / автобатлеры ──
+  # Konami — Yu-Gi-Oh! Master Duel, eFootball, PES
+  - DOMAIN-SUFFIX,konami.com
+  - DOMAIN-SUFFIX,konami.net
+  # Blizzard — Hearthstone, Diablo Immortal
+  - DOMAIN-SUFFIX,blizzard.com
+  - DOMAIN-SUFFIX,battle.net
+  # Nuverse — Marvel Snap
+  - DOMAIN-SUFFIX,nuverse.com
+
+  # ── 🍬 Казуальные / match-3 / puzzle ──
   # King — Candy Crush
   - DOMAIN-SUFFIX,king.com
-  # Playrix — Gardenscapes, Homescapes, Fishdom
+  # Playrix — Gardenscapes, Homescapes, Township, Fishdom
   - DOMAIN-SUFFIX,playrix.com
   # Dream Games — Royal Match
   - DOMAIN-SUFFIX,dreamgames.com
   # Habby — Survivor.io, Archero
   - DOMAIN-SUFFIX,habby.com
-  # Gameloft — Asphalt, Disney Speedstorm, Dungeon Hunter
-  - DOMAIN-SUFFIX,gameloft.com
+  # Moon Active — Coin Master
+  - DOMAIN-SUFFIX,moonactive.com
+  # Playtika — Bingo Blitz, Slotomania
+  - DOMAIN-SUFFIX,playtika.com
+  # Peak — Toon Blast, Toy Blast
+  - DOMAIN-SUFFIX,peak.com
+  # Rollic — hypercasual/casual
+  - DOMAIN-SUFFIX,rollicgames.com
+  # ZeptoLab — Cut the Rope, Bullet Echo
+  - DOMAIN-SUFFIX,zeptolab.com
+  # Jam City — Cookie Jam, Harry Potter: Hogwarts Mystery
+  - DOMAIN-SUFFIX,jamcity.com
+  # Small Giant — Empires & Puzzles
+  - DOMAIN-SUFFIX,smallgiantgames.com
+  # Easybrain — Sudoku, Blockudoku
+  - DOMAIN-SUFFIX,easybrain.com
+  # Wooga — June's Journey
+  - DOMAIN-SUFFIX,wooga.com
+  # Tripledot — Solitaire, Woodoku
+  - DOMAIN-SUFFIX,tripledotstudios.com
+  # Metacore — Merge Mansion
+  - DOMAIN-SUFFIX,metacoregames.com
+  # Pixel Federation — Diggy's Adventure
+  - DOMAIN-SUFFIX,pixelfederation.com
+  # Devsisters — Cookie Run: Kingdom
+  - DOMAIN-SUFFIX,devsisters.com
+  # Rovio — Angry Birds
+  - DOMAIN-SUFFIX,rovio.com
+  # Outfit7 — My Talking Tom
+  - DOMAIN-SUFFIX,outfit7.com
+  # Miniclip — 8 Ball Pool
+  - DOMAIN-SUFFIX,miniclip.com
+  # Halfbrick — Fruit Ninja, Jetpack Joyride
+  - DOMAIN-SUFFIX,halfbrick.com
+  # Fingersoft — Hill Climb Racing
+  - DOMAIN-SUFFIX,fingersoft.com
+  # Product Madness — slots
+  - DOMAIN-SUFFIX,productmadness.com
+  # Huuuge Games — Huuuge Casino
+  - DOMAIN-SUFFIX,huuugegames.com
+  # Murka — slots
+  - DOMAIN-SUFFIX,murka.com
 
-  # ── 🗺 Локационные / прочее ──
-  # Niantic — Pokémon GO, Monster Hunter Now, Pikmin Bloom
-  - DOMAIN-SUFFIX,nianticlabs.com
-  - DOMAIN-SUFFIX,pokemongolive.com
-  # The Pokémon Company — UNITE, Masters EX, TCG Live
-  - DOMAIN-SUFFIX,pokemon.com
-  # Nuverse — Marvel Snap
-  - DOMAIN-SUFFIX,nuverse.com
+  # ── 🎈 Hypercasual издатели ──
+  # Voodoo
+  - DOMAIN-SUFFIX,voodoo.io
+  # SayGames
+  - DOMAIN-SUFFIX,saygames.io
+  # Kwalee
+  - DOMAIN-SUFFIX,kwalee.com
+  # Azur Games — Stack Ball, Worms Zone
+  - DOMAIN-SUFFIX,azurgames.com
+  # Homa
+  - DOMAIN-SUFFIX,homagames.com
+  # CrazyLabs
+  - DOMAIN-SUFFIX,crazylabs.com
+  # Supercent
+  - DOMAIN-SUFFIX,supercent.io
+  # Good Job Games
+  - DOMAIN-SUFFIX,goodjobgames.com
+  # Gismart
+  - DOMAIN-SUFFIX,gismart.com
+  # Yodo1
+  - DOMAIN-SUFFIX,yodo1.com
 
-  # ── 🎮 Кроссплатформа (есть мобильные клиенты) ──
-  # Blizzard — Diablo Immortal, Hearthstone
-  - DOMAIN-SUFFIX,blizzard.com
-  - DOMAIN-SUFFIX,battle.net
+  # ── 🏎 Гонки / спорт ──
+  # EA Sports — FC Mobile, F1 Mobile
+  - DOMAIN-SUFFIX,ea.com
+  - DOMAIN-SUFFIX,easports.com
+  - DOMAIN-SUFFIX,origin.com
+  - DOMAIN-SUFFIX,capitalgames.com
+  - DOMAIN-SUFFIX,glumobile.com
+  # 2K — NBA 2K Mobile, WWE
+  - DOMAIN-SUFFIX,2k.com
+  # Hutch — racing (F1 Clash, Top Drives)
+  - DOMAIN-SUFFIX,hutch.io
+  # Nordeus — Top Eleven
+  - DOMAIN-SUFFIX,nordeus.com
+  # First Touch — Dream League Soccer
+  - DOMAIN-SUFFIX,ftgames.com
+
+  # ── 🧱 Песочницы / симуляторы / соц ──
+  # Minecraft (Mojang / Microsoft)
+  - DOMAIN-SUFFIX,minecraft.net
+  - DOMAIN-SUFFIX,minecraftservices.com
+  - DOMAIN-SUFFIX,mojang.com
+  # InnerSloth — Among Us
+  - DOMAIN-SUFFIX,innersloth.com
+  # SYBO — Subway Surfers
+  - DOMAIN-SUFFIX,sybogames.com
+  # Imangi — Temple Run
+  - DOMAIN-SUFFIX,imangistudios.com
+  # Jagex — Old School RuneScape Mobile, Melvor Idle
+  - DOMAIN-SUFFIX,jagex.com
+
+  # ── 🎮 Издатели западные (мульти-жанр) ──
+  # Zynga — CSR Racing, Words With Friends, Harry Potter Puzzles
+  - DOMAIN-SUFFIX,zynga.com
+  # Take-Two / Rockstar — GTA, NBA 2K
+  - DOMAIN-SUFFIX,take2games.com
+  - DOMAIN-SUFFIX,rockstargames.com
   # Ubisoft — Rainbow Six Mobile, The Division Resurgence
   - DOMAIN-SUFFIX,ubisoft.com
   - DOMAIN-SUFFIX,ubi.com
   # Epic — Fortnite (mobile/cloud), Epic account
   - DOMAIN-SUFFIX,epicgames.com
+  # Kabam — Marvel Contest of Champions
+  - DOMAIN-SUFFIX,kabam.com
+  # Pocket Gems — Episode
+  - DOMAIN-SUFFIX,pocketgems.com
+  # Tilting Point — издатель
+  - DOMAIN-SUFFIX,tiltingpoint.com
+  # nWay — Power Rangers
+  - DOMAIN-SUFFIX,nway.com
+  # Niantic — Pokémon GO, Monster Hunter Now, Pikmin Bloom
+  - DOMAIN-SUFFIX,nianticlabs.com
+  - DOMAIN-SUFFIX,pokemongolive.com
+  # The Pokémon Company — UNITE, Masters EX, TCG Live
+  - DOMAIN-SUFFIX,pokemon.com
+  # Gameloft — Asphalt, Disney Speedstorm, Dungeon Hunter
+  - DOMAIN-SUFFIX,gameloft.com
+
+  # ── 🗾 Издатели японские (мульти-жанр) ──
+  # Bandai Namco — Dragon Ball Legends, One Piece, Tales of (enza — платформа)
+  - DOMAIN-SUFFIX,bandainamcoent.com
+  - DOMAIN-SUFFIX,bandainamcoent.eu
+  - DOMAIN-SUFFIX,enza.fun
+  # Sega — Sonic, Sakura, Puyo Puyo
+  - DOMAIN-SUFFIX,sega.com
+  - DOMAIN-SUFFIX,sega.jp
+  # Capcom — Monster Hunter, Street Fighter: Duel
+  - DOMAIN-SUFFIX,capcom.com
+  # Koei Tecmo
+  - DOMAIN-SUFFIX,koeitecmo.co.jp
+  # Nintendo / DeNA — Mario Kart Tour, Fire Emblem Heroes, Pokémon Masters
+  - DOMAIN-SUFFIX,nintendo.com
+  - DOMAIN-SUFFIX,nintendo.net
+  - DOMAIN-SUFFIX,dena.com
+  - DOMAIN-SUFFIX,dena.jp
+
+  # ── 🐉 Издатели/платформы китайские ──
+  # NetEase — Identity V, Knives Out, LifeAfter, Diablo Immortal (co-dev)
+  - DOMAIN-SUFFIX,netease.com
+  - DOMAIN-SUFFIX,easebar.com
+  - DOMAIN-SUFFIX,gameyw.netease.com
+  # 4399
+  - DOMAIN-SUFFIX,4399.com
+  # XD Inc / TapTap
+  - DOMAIN-SUFFIX,xd.com
+  - DOMAIN-SUFFIX,taptap.io
+  # Bilibili Game
+  - DOMAIN-SUFFIX,biligame.com
+  # Komoe Game
+  - DOMAIN-SUFFIX,komoegame.com
+  # Zlongame — Langrisser
+  - DOMAIN-SUFFIX,zlongame.com
+  # Dragonest — Dragon Nest 2
+  - DOMAIN-SUFFIX,dragonest.com
+  # VNG Games
+  - DOMAIN-SUFFIX,vnggames.com
+  # Efun
+  - DOMAIN-SUFFIX,efun.com
+  # Mobirix
+  - DOMAIN-SUFFIX,mobirix.com
+
+  # ── 🔧 Игровая инфраструктура (мультиплеер / бэкенд / голос) ──
+  # Photon — realtime multiplayer (используется множеством мобильных игр)
+  - DOMAIN-SUFFIX,photonengine.com
+  # PlayFab (Microsoft) — game backend
+  - DOMAIN-SUFFIX,playfab.com
+  - DOMAIN-SUFFIX,playfabapi.com
+  # AccelByte — game backend
+  - DOMAIN-SUFFIX,accelbyte.io
+  # Vivox — голосовой чат
+  - DOMAIN-SUFFIX,vivox.com
   # Wargaming — World of Tanks Blitz
   - DOMAIN-SUFFIX,wargaming.net
   # Gaijin — War Thunder Mobile
   - DOMAIN-SUFFIX,gaijin.net
-  # Vivox — голосовой чат (используется многими мобильными играми)
-  - DOMAIN-SUFFIX,vivox.com
