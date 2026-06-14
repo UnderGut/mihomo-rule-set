@@ -75,3 +75,7 @@ payload:
   # ── Snappy Driver Installer (драйверы) ──
   - DOMAIN-KEYWORD,snappy-driver
   - PROCESS-NAME-REGEX,(?i)SDIO
+
+  # ── 🎥 OBS Studio → DIRECT (стрим/запись мимо VPN) ──
+  - PROCESS-NAME,obs64.exe
+  - PROCESS-NAME,obs32.exe

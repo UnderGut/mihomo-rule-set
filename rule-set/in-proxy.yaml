@@ -27,6 +27,8 @@ payload:
   - DOMAIN-SUFFIX,jut.su
   - DOMAIN-SUFFIX,kara.su
   - DOMAIN-SUFFIX,kemono.su
+  - DOMAIN-SUFFIX,shikimori.one
+  - DOMAIN-SUFFIX,shikimori.me
   - DOMAIN-KEYWORD,anilibria
   - DOMAIN-KEYWORD,animelib
   - DOMAIN-KEYWORD,animego
