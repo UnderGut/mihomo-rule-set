@@ -63,3 +63,6 @@ payload:
   - DOMAIN-SUFFIX,frankfurter.dev
   - DOMAIN-SUFFIX,jmp.blue
   - DOMAIN-KEYWORD,bible-api
+
+  # ── 💳 Финтех / платежи (геоблок → proxy) ──
+  - DOMAIN-SUFFIX,zeepay.com.tr
