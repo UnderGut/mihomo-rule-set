@@ -1,0 +1,6 @@
+# build scratch + downloaded mihomo binary (CI), not stored in the repo
+/temp_work/
+/mihomo-bin
+/mihomo.exe
+*.gz
+*.tmp

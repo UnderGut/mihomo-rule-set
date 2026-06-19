@@ -2,13 +2,14 @@
 set -e
 
 # --- КОНФИГУРАЦИЯ ---
-OUTPUT_DIR="dist"
+OUTPUT_DIR="rules"          # один каталог для рукописных .yaml И собранных .mrs
 SOURCES_FILE="sources.list"
 TEMP_DIR="temp_work"
 
 # --- ПОДГОТОВКА ---
-echo "--- Cleaning up old files ---"
-rm -rf "$OUTPUT_DIR"
+# ВНИМАНИЕ: НЕ wipe'аем OUTPUT_DIR — там лежат рукописные .yaml (исходные правила).
+# build только перезаписывает свои .mrs (mihomo convert-ruleset overwrites).
+echo "--- Preparing ---"
 mkdir -p "$OUTPUT_DIR"
 rm -rf "$TEMP_DIR"
 mkdir -p "$TEMP_DIR"
@@ -128,8 +129,7 @@ while IFS= read -r line; do
 
     source_filename=$(basename "$url")
     rule_name="${source_filename%.*}"
-    outdir="$OUTPUT_DIR"
-    [[ -n "$folder" ]] && outdir="$OUTPUT_DIR/$folder"
+    outdir="$OUTPUT_DIR"        # плоско: всё в rules/, без подпапок категорий
 
     echo "Processing: $rule_name"
     echo "  -> Saving to: $outdir"
@@ -200,7 +200,6 @@ if [[ -f "$MERGE_FILE" ]]; then
             sed "s/.*/  - '&'/" "$sorted" >> "$yaml"
             mkdir -p "$OUTPUT_DIR"
             if mihomo convert-ruleset domain yaml "$yaml" "$OUTPUT_DIR/${grp}.mrs"; then
-                cp "$sorted" "$OUTPUT_DIR/${grp}.list"
                 echo "  ✅ $grp merged: $count domains -> $OUTPUT_DIR/${grp}.mrs"
             else
                 echo "  ⚠ $grp compile failed (kept previous .mrs)"
