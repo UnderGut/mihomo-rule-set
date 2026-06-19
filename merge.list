@@ -10,3 +10,6 @@ music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/band
 music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/lastfm.list
 music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Pandora/Pandora.yaml
 music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Qobuz/Qobuz.yaml,(^|\.)(cobeuz|cobuz|cobuzz|kobuz|quobuz)\.
+neural,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-gemini.list
+neural,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.list
+neural,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-deepmind.list
