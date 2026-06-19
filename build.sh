@@ -151,6 +151,67 @@ while IFS= read -r line; do
     echo "-------------------------------------"
 done < "$SOURCES_FILE"
 
+# --- MERGE GROUPS (consolidate N sources -> one .mrs) ---
+# Config: merge.list, lines "group,type,url[,exclude_regex]"
+#   type = list  (plain domain list, e.g. MetaCubeX *.list)
+#        | yaml  (classical *.yaml, e.g. blackmatrix7: DOMAIN/DOMAIN-SUFFIX kept)
+#   exclude_regex = optional ERE; matching domains are dropped (e.g. typosquats)
+# Output: dist/<group>.mrs (+ dist/<group>.list). Best-effort: never breaks the
+# core build above (failures are logged, not fatal).
+MERGE_FILE="merge.list"
+if [[ -f "$MERGE_FILE" ]]; then
+    echo "--- Processing merge groups ---"
+    groups=$(grep -vE '^[[:space:]]*(#|$)' "$MERGE_FILE" | cut -d',' -f1 | sort -u || true)
+    for grp in $groups; do
+        echo "Merging group: $grp"
+        combined="$TEMP_DIR/${grp}_combined.txt"; > "$combined"
+        while IFS= read -r mline; do
+            [[ -z "$mline" || "$mline" == \#* ]] && continue
+            g="$(echo "$mline" | cut -d',' -f1 | xargs)"
+            [[ "$g" != "$grp" ]] && continue
+            mtype="$(echo "$mline" | cut -d',' -f2 | xargs)"
+            murl="$(echo "$mline" | cut -d',' -f3 | xargs)"
+            mexclude="$(echo "$mline" | cut -d',' -f4-)"
+            tmpf="$TEMP_DIR/merge_$(basename "$murl")"
+            curl -L -s -o "$tmpf" "$murl" || true
+            [[ ! -s "$tmpf" ]] && { echo "  ⚠ empty/failed: $murl"; continue; }
+            extracted="$TEMP_DIR/merge_extract.txt"
+            if [[ "$mtype" == "yaml" ]]; then
+                awk '
+                  { line=$0; sub(/^[[:space:]]*-?[[:space:]]*/,"",line) }
+                  line ~ /^DOMAIN-SUFFIX,/ { split(line,a,","); d=a[2]; gsub(/[[:space:]]/,"",d); if(d!="") print "+." d; next }
+                  line ~ /^DOMAIN,/        { split(line,a,","); d=a[2]; gsub(/[[:space:]]/,"",d); if(d!="") print d; next }
+                ' "$tmpf" > "$extracted" || true
+            else
+                awk 'NF && $0 !~ /^[[:space:]]*#/ { gsub(/[[:space:]]/,""); if($0!="") print }' "$tmpf" > "$extracted" || true
+            fi
+            if [[ -n "$mexclude" ]]; then
+                grep -vE "$mexclude" "$extracted" >> "$combined" || true
+            else
+                cat "$extracted" >> "$combined" || true
+            fi
+        done < "$MERGE_FILE"
+        sorted="$TEMP_DIR/${grp}_sorted.txt"
+        sort -u "$combined" | grep -E '\.' > "$sorted" || true
+        count=$(wc -l < "$sorted" | tr -d '[:space:]')
+        if [ "${count:-0}" -gt 0 ]; then
+            yaml="$TEMP_DIR/${grp}_payload.yaml"
+            echo "payload:" > "$yaml"
+            sed "s/.*/  - '&'/" "$sorted" >> "$yaml"
+            mkdir -p "$OUTPUT_DIR"
+            if mihomo convert-ruleset domain yaml "$yaml" "$OUTPUT_DIR/${grp}.mrs"; then
+                cp "$sorted" "$OUTPUT_DIR/${grp}.list"
+                echo "  ✅ $grp merged: $count domains -> $OUTPUT_DIR/${grp}.mrs"
+            else
+                echo "  ⚠ $grp compile failed (kept previous .mrs)"
+            fi
+        else
+            echo "  ⚠ $grp produced 0 domains, skipped"
+        fi
+        echo "-------------------------------------"
+    done
+fi
+
 echo "--- Cleaning up temporary files ---"
 rm -rf "$TEMP_DIR"
 echo "🎉 Build process finished successfully."

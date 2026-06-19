@@ -1,0 +1,12 @@
+# merge groups: group,type,url[,exclude_regex]
+# type: list = plain domain list (MetaCubeX *.list) | yaml = blackmatrix7 classical (DOMAIN/DOMAIN-SUFFIX kept)
+# exclude_regex: optional ERE; matching domains are dropped (e.g. typosquats)
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo-lite/geosite/applemusic.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/soundcloud.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/deezer.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/tidal.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/bandcamp.list
+music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/lastfm.list
+music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Pandora/Pandora.yaml
+music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Qobuz/Qobuz.yaml,(^|\.)(cobeuz|cobuz|cobuzz|kobuz|quobuz)\.
