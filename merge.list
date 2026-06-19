@@ -13,3 +13,4 @@ music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-gemini.list
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.list
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-deepmind.list
+games,localyaml,rules/games.yaml

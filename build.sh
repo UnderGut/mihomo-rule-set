@@ -173,10 +173,14 @@ if [[ -f "$MERGE_FILE" ]]; then
             murl="$(echo "$mline" | cut -d',' -f3 | xargs)"
             mexclude="$(echo "$mline" | cut -d',' -f4-)"
             tmpf="$TEMP_DIR/merge_$(basename "$murl")"
-            curl -L -s -o "$tmpf" "$murl" || true
+            if [[ "$mtype" == local* ]]; then
+                cp "$murl" "$tmpf" 2>/dev/null || { echo "  ⚠ no local file: $murl"; continue; }
+            else
+                curl -L -s -o "$tmpf" "$murl" || true
+            fi
             [[ ! -s "$tmpf" ]] && { echo "  ⚠ empty/failed: $murl"; continue; }
             extracted="$TEMP_DIR/merge_extract.txt"
-            if [[ "$mtype" == "yaml" ]]; then
+            if [[ "$mtype" == *yaml* ]]; then
                 awk '
                   { line=$0; sub(/^[[:space:]]*-?[[:space:]]*/,"",line) }
                   line ~ /^DOMAIN-SUFFIX,/ { split(line,a,","); d=a[2]; gsub(/[[:space:]]/,"",d); if(d!="") print "+." d; next }
