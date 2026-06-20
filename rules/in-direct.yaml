@@ -54,6 +54,10 @@ payload:
   - DOMAIN-KEYWORD,kion
   - DOMAIN-KEYWORD,miradres
 
+  # ── 🎬 kinobox (RU-агрегатор плееров; API режет VPN/дата-центровые IP) → DIRECT ──
+  - DOMAIN-SUFFIX,kinobox.tv
+  - DOMAIN-SUFFIX,kinobox.in
+
   # ── Соцсети / сервисы ──
   - DOMAIN-SUFFIX,reddit.com
   - DOMAIN-SUFFIX,jivosite.com
