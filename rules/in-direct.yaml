@@ -58,6 +58,9 @@ payload:
   - DOMAIN-SUFFIX,kinobox.tv
   - DOMAIN-SUFFIX,kinobox.in
 
+  # ── 🎬 Lampa (RU-агрегатор; API отдаёт гео-блок на не-RU IP) → DIRECT ──
+  - DOMAIN-SUFFIX,lampa.stream
+
   # ── Соцсети / сервисы ──
   - DOMAIN-SUFFIX,reddit.com
   - DOMAIN-SUFFIX,jivosite.com
