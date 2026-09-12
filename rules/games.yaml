@@ -795,6 +795,19 @@ payload:
   - DOMAIN-SUFFIX,easyanticheat.net
   - DOMAIN-SUFFIX,epicgames.dev
 
+  # ═══════════════════════════════════════
+  #   § 23b BULKHEAD / WARDOGS / PRAGMA
+  # ═══════════════════════════════════════
+
+  # WARDOGS / Bulkhead Interactive
+  - PROCESS-NAME,Wardogs.exe
+  - PROCESS-NAME,Wardogs-Win64-Shipping.exe
+
+  - DOMAIN-SUFFIX,pragmaengine.com
+  - DOMAIN-SUFFIX,firstlook.gg
+  - DOMAIN-SUFFIX,bulkhead.com
+  - DOMAIN-SUFFIX,bulkheadinteractive.com
+
 
   # ═══════════════════════════════════════
   #   § 24  BLIZZARD / ACTIVISION (доп.)
