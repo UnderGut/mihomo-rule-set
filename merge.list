@@ -1,5 +1,6 @@
 # merge groups: group,type,url[,exclude_regex]
 # type: list = plain domain list (MetaCubeX *.list) | yaml = blackmatrix7 classical (DOMAIN/DOMAIN-SUFFIX kept)
+#       locallist / localyaml = the same formats, file path inside this repo
 # exclude_regex: optional ERE; matching domains are dropped (e.g. typosquats)
 music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.list
 music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo-lite/geosite/applemusic.list
@@ -14,3 +15,5 @@ ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.list
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-deepmind.list
 games-mobile,localyaml,rules/games.yaml
+tiktok,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/tiktok.list
+tiktok,locallist,rules/tiktok-extra.list

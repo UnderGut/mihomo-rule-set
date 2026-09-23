@@ -49,8 +49,23 @@ music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash
 
 - type `list` = plain domain list (MetaCubeX `.list`, `+.` notation kept)
 - type `yaml` = classical `.yaml` (blackmatrix7): `DOMAIN`/`DOMAIN-SUFFIX` kept, rest dropped
+- type `locallist` / `localyaml` = the same formats, read from a file in this repo
+  (e.g. `tiktok,locallist,rules/tiktok-extra.list` adds hosts missing upstream)
 - `exclude_regex` (optional, ERE): matching domains are dropped
 - output: `rules/<group>.mrs` (behavior `domain`)
+
+A group is rebuilt only when it is safe; otherwise the previous
+`rules/<group>.mrs` is kept and a warning is printed (and annotated on the
+GitHub Actions run):
+
+- every source was downloaded and parsed (`curl -f` with retries; empty files,
+  HTML error pages and non-domain lines fail the group);
+- the new entry count is at least `MERGE_MIN_RATIO`% (default 80) of the
+  previous build;
+- no entry is a TLD or a public suffix according to the
+  [Public Suffix List](https://publicsuffix.org/): ICANN suffixes (`+.com`,
+  `+.co.uk`) are rejected in every group, PRIVATE ones (`+.github.io`,
+  `+.akamaized.net`) only in `PSL_STRICT_GROUPS` (default `tiktok`).
 
 ## Use in Mihomo
 

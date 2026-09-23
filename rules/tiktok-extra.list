@@ -1,0 +1,77 @@
+# ByteDance / TikTok hosts missing from upstream geosite:tiktok (MetaCubeX).
+# Merged with the upstream list into rules/tiktok.mrs (see merge.list).
+# One entry per line: "+.example.com" = domain and all subdomains, plain name = exact host.
+
+# TikTok core: API, web, shop, service domains
++.tiktok-row.org
++.tiktokv-us.com
++.tiktokv-eu.com
++.tiktokglobalshop.com
++.tiktokshop.com
++.tiktokshops.us
++.tiktokshops.eu
++.tiktoklinksafety.com
++.tiktoklinksafety.us
++.tiktoklinksafety.eu
++.business-tiktok.com
++.tiktok.in
++.tiktokmusic.app
++.tiktokapis.com
+
+# CDN, media, static, effects
++.tiktokcdn-in.com
++.tiktokcdn-eu.net
++.tiktoklb.eu
++.tiktokstaticb.com
++.ibyteimg.com
++.ibytedtos.com
++.byteeffecttos-g.com
++.pitaya-clientai.com
++.bytegecko-i18n.com
++.byteglb.com
++.sgpstatp.com
++.ipstatp.com
++.bytefcdn-oversea.com
++.bytefcdn-ttpeu.com
++.ttdns2.com
++.ttdns3.com
+
+# Telemetry, SDK, security, attribution
++.byteoversea.com
++.byteoversea.net
++.byteintlapi.com
++.isnssdk.com
++.iapplogcdn.com
+roovza.cdn-settings.appsflyersdk.com
+roovza-cdn-settings.appsflyersdk.com
+roovza.attr.appsflyersdk.com
+roovza.conversions.appsflyersdk.com
+roovza.dlsdk.appsflyersdk.com
+roovza.gcdsdk.appsflyersdk.com
+roovza.dynamic-config-api.appsflyersdk.com
+roovza-skadsdk.appsflyersdk.com
+roovza-inapps.appsflyersdk.com
+snssdk1233.onelink.me
++.ibytedapm.com
+tiktok.tps.dv.tech
+
+# Pangle (ByteDance ads SDK)
++.tiktokpangle.us
++.tiktokpangle-b.us
++.tiktokpangle-cdn-us.com
++.pangle.io
++.pangle-b.io
++.i18n-pglstatp.com
++.sgsnssdk.com
+
+# CapCut / Lemon8
++.capcut.com
++.capcutapi.com
++.capcutapi.us
++.capcutw.us
++.capcutcdn-us.com
++.capcutstatic.com
++.capcutvod.com
++.capcut-app.com
++.lemon8-app.com
++.lemon8-app.us
