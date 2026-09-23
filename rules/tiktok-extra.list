@@ -75,3 +75,19 @@ tiktok.tps.dv.tech
 +.capcut-app.com
 +.lemon8-app.com
 +.lemon8-app.us
+
+# Core TikTok domains duplicated from upstream on purpose: keeps the merged list
+# functional if the upstream source shrinks or disappears (dedup happens on merge).
++.tiktok.com
++.tiktokv.com
++.tiktokv.eu
++.tiktokv.us
++.tiktokw.eu
++.tiktokw.us
++.tiktokcdn.com
++.tiktokcdn-us.com
++.tiktokcdn-eu.com
++.ttwstatic.com
++.musical.ly
++.muscdn.com
++.ttlivecdn.com

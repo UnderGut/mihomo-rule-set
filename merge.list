@@ -15,5 +15,5 @@ ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ai-!cn.list
 ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-deepmind.list
 games-mobile,localyaml,rules/games.yaml
-tiktok,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/tiktok.list
+tiktok,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/tiktok.list,(^|\.)(byteplusvod|tobsnssdk|bytepluscdn)\.com$
 tiktok,locallist,rules/tiktok-extra.list
