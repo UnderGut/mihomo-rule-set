@@ -1,0 +1,6 @@
+# ip groups: group,family,url[,min_entries]
+# family: v4 = keep IPv4 CIDRs, drop IPv6 (the only family implemented)
+# url: http(s) upstream | local:<path inside this repo>
+# min_entries: optional absolute floor (protects the very first build)
+# Output: rules/<group>.mrs (behavior ipcidr). See build.sh "IPCIDR GROUPS".
+geoip-for-ru-v4,v4,https://raw.githubusercontent.com/Davoyan/mihomo-rule-sets/main/ip-for-ru/lists/ips-for-ru.txt,10000

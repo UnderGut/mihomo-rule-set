@@ -2,67 +2,97 @@ name: SVG → PNG
 
 on:
   push:
+    branches: [main]
     paths:
       - "icon/**/*.svg"
+      - ".github/workflows/svg-to-png.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+# One run at a time per workflow; later runs wait in the queue (up to 100) instead
+# of replacing each other. Races with the other workflow are solved by push+rebase.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+  queue: max
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned: PNG bytes depend on the librsvg version
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      BASE_SIZE: "128"     # PNG fits into BASE_SIZE x BASE_SIZE, aspect ratio kept
+      SRC_DIR: "icon"
+      OUT_DIR: "icon/png"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
-          persist-credentials: true
+          ref: ${{ github.ref }}
+          persist-credentials: false
 
       - name: Install converter (librsvg)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends librsvg2-bin
+          sudo apt-get -o Acquire::Retries=3 update -q
+          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends librsvg2-bin
+          rsvg-convert --version
 
+      # One PNG per SVG (same relative path under OUT_DIR); a PNG whose SVG is
+      # gone is removed. Never removes anything if no SVG was rendered.
       - name: Convert SVG to PNG
-        shell: bash
-        env:
-          BASE_SIZE: "128"     # размер PNG в пикселях
-          SRC_DIR: "icon"
-          OUT_DIR: "icon/png"
         run: |
           set -euo pipefail
           shopt -s globstar nullglob
-
+          declare -A keep=()
           for svg in "$SRC_DIR"/**/*.svg; do
-            # Пропускаем svg внутри icon/png
-            if [[ "$svg" == "$OUT_DIR"* ]]; then
-              continue
-            fi
-
-            rel="${svg#${SRC_DIR}/}"       # путь внутри SRC_DIR
-            base_no_ext="${rel%.svg}"
-            out_subdir="$OUT_DIR/$(dirname "$rel")"
-            mkdir -p "$out_subdir"
-
-            # Перезаписываем один PNG на экземпляр
-            rsvg-convert "$svg" -w "$BASE_SIZE" -h "$BASE_SIZE" \
-              -o "$out_subdir/${base_no_ext}.png"
+            [[ "$svg" == "$OUT_DIR"/* ]] && continue
+            rel="${svg#"$SRC_DIR"/}"
+            out="$OUT_DIR/${rel%.svg}.png"   # no './': the key must equal the glob path below
+            mkdir -p "$(dirname "$out")"
+            rsvg-convert --keep-aspect-ratio -w "$BASE_SIZE" -h "$BASE_SIZE" -o "$out" "$svg"
+            keep["$out"]=1
           done
-
-      - name: Commit & push if changed
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -z "$(git status -- icon/png)" ]; then
-            echo "No PNG changes to commit."
-            exit 0
+          if (( ${#keep[@]} == 0 )); then
+            echo "::warning title=svg-to-png::no SVG rendered, orphan cleanup skipped"
+          else
+            for png in "$OUT_DIR"/**/*.png; do
+              if [[ -z "${keep[$png]:-}" ]]; then
+                echo "::notice title=svg-to-png::orphan PNG removed: $png"
+                rm -f -- "$png"
+              fi
+            done
           fi
 
+      - name: Commit and push if changed
+        if: github.ref == 'refs/heads/main'   # a run from another branch is a dry run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git add -A -- "$OUT_DIR"
+          if git diff --cached --quiet; then
+            echo "No PNG changes to commit." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add icon/png
-          git commit -m "build: regenerate PNGs from SVG ($(date -u +'%Y-%m-%d %H:%M:%S'))"
-          git push
+          git commit -q -m "build: regenerate PNGs from SVG ($(date -u +'%Y-%m-%d %H:%M:%S'))"
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$auth"
+          for i in 1 2 3; do
+            if git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $auth" push -q origin HEAD:main; then
+              echo "Published $(git rev-parse --short HEAD)" | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "::warning::push rejected (attempt $i), rebasing onto fresh main"
+            sleep $((i * 10))
+            git fetch -q --no-tags origin main
+            git rebase -q origin/main || { git rebase --abort; echo "::error::rebase conflict in $OUT_DIR"; exit 1; }
+          done
+          echo "::error::push failed after 3 attempts"
+          exit 1

@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Keeps the SHA pins in .github/workflows/*.yml (and their "# vX.Y.Z" comments) up to date.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

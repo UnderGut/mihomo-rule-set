@@ -1,0 +1,4 @@
+# LF everywhere: build.sh / *.list / *.yaml must not get CRLF on Windows checkouts.
+* text=auto eol=lf
+*.mrs binary
+*.png binary

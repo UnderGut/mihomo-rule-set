@@ -2,34 +2,159 @@ name: Generate mihomo Rules
 
 on:
   schedule:
-    # Запускать в 2:00 UTC каждый день (5 утра по МСК)
-    - cron: '0 2 * * *'
+    # 07:17 UTC (10:17 МСК): не ровный час — меньше очередь у GitHub; после
+    # ежедневного обновления ip-for-ru у апстрима (~06:00–06:40 UTC).
+    - cron: '17 7 * * *'
+  push:
+    branches: [main]
+    paths:
+      - build.sh
+      - sources.list
+      - merge.list
+      - ip.list
+      - rules/*.yaml
+      - rules/*.list
+      - .github/scripts/**
+      - .github/workflows/generate-rules.yml
   workflow_dispatch:
+    inputs:
+      min_ratio:
+        description: "Min % of the previous entry count (lower it once to accept a legit upstream shrink)"
+        required: false
+        default: "80"
+      force_groups:
+        description: "IP groups (space separated) rebuilt WITHOUT the ratio checks vs the previous build"
+        required: false
+        default: ""
 
 permissions:
-  contents: write
+  contents: read
+
+# One run at a time per workflow; later runs wait in the queue (up to 100) instead
+# of replacing each other. Races with the other workflow are solved by push+rebase.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+  queue: max
+
+env:
+  MIHOMO_VERSION: v1.19.31
+  # sha256 of mihomo-linux-amd64-compatible-<version>.gz ("digest" of the release asset in the GitHub API).
+  # Build locally with the same version, otherwise .mrs bytes differ and commits get noisy.
+  MIHOMO_SHA256: 04cf9f09671704f839ddbee2e93069dc831a4123a75281e725d1d96ab9ac1afc
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # --- ИСПРАВЛЕННЫЙ, НАДЕЖНЫЙ МЕТОД УСТАНОВКИ ---
-      - name: Download and install Mihomo
-        run: |
-          curl -L -o mihomo.deb https://github.com/MetaCubeX/mihomo/releases/download/v1.19.9/mihomo-linux-amd64-v1.19.9.deb
-          sudo apt-get update
-          # Команда с исправленной опечаткой (добавлен пробел)
-          sudo apt-get install -y ./mihomo.deb
-
-      - name: Run build script
-        run: bash ./build.sh
-
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          commit_message: "chore: Auto-update mihomo rule sets"
-          file_pattern: rules/*.mrs
+          ref: ${{ github.ref }}       # tip of the branch at job start, not the (possibly stale) event SHA
+          persist-credentials: false   # no token in .git/config while build.sh and mihomo run
+
+      - name: Install mihomo ${{ env.MIHOMO_VERSION }}
+        run: |
+          set -euo pipefail
+          asset="mihomo-linux-amd64-compatible-${MIHOMO_VERSION}.gz"
+          curl -fsSL --retry 5 --retry-all-errors --connect-timeout 15 --max-time 180 \
+            -o "$RUNNER_TEMP/$asset" \
+            "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_VERSION}/${asset}"
+          echo "${MIHOMO_SHA256}  $RUNNER_TEMP/$asset" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/bin"
+          gunzip -c "$RUNNER_TEMP/$asset" > "$RUNNER_TEMP/bin/mihomo"
+          chmod +x "$RUNNER_TEMP/bin/mihomo"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/bin/mihomo" -v
+
+      - name: Lint hand-written rules/*.yaml
+        id: lint
+        continue-on-error: true   # reported (red run) in the last step; the build still runs
+        run: bash .github/scripts/check-yaml.sh
+
+      - name: Build rule sets
+        env:
+          MIN_RATIO: ${{ inputs.min_ratio || '80' }}
+          IP_FORCE_GROUPS: ${{ inputs.force_groups }}
+          BUILD_WARNINGS_FILE: ${{ runner.temp }}/build-warnings.txt
+        run: |
+          set -euo pipefail
+          [[ "$MIN_RATIO" =~ ^[0-9]+$ ]] || { echo "::error::min_ratio must be a number, got '$MIN_RATIO'"; exit 1; }
+          export SOURCE_MIN_RATIO="$MIN_RATIO" MERGE_MIN_RATIO="$MIN_RATIO" IP_MIN_RATIO="$MIN_RATIO"
+          bash ./build.sh 2>&1 | tee "$RUNNER_TEMP/build.log"
+
+      - name: Check rule sets before publishing
+        id: check
+        env:
+          MIN_RATIO: ${{ inputs.min_ratio || '80' }}
+        run: bash .github/scripts/check-rules.sh
+
+      - name: Commit and push
+        if: github.ref == 'refs/heads/main'   # a run from another branch is a dry run: build + gate, no push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git add -- 'rules/*.mrs'
+          if git diff --cached --quiet; then
+            echo "No changes in rules/*.mrs" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -q -m "chore: Auto-update mihomo rule sets"
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$auth"
+          for i in 1 2 3; do
+            if git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $auth" push -q origin HEAD:main; then
+              echo "Published $(git rev-parse --short HEAD)" | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "::warning::push rejected (attempt $i), rebasing onto fresh main"
+            sleep $((i * 10))
+            git fetch -q --no-tags origin main
+            git rebase -q origin/main || { git rebase --abort; echo "::error::rebase conflict on rules/*.mrs"; exit 1; }
+          done
+          echo "::error::push failed after 3 attempts"
+          exit 1
+
+      # Red run (+ e-mail from GitHub, + optional Telegram) when anything was
+      # skipped: good files are published anyway, stale ones must not go unnoticed.
+      - name: Report
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          LINT: ${{ steps.lint.outcome }}
+          HELD: ${{ steps.check.outputs.held }}
+          TG_TOKEN: ${{ secrets.TG_ALERT_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_ALERT_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -uo pipefail
+          wf="$RUNNER_TEMP/build-warnings.txt"
+          warns=0
+          if [[ -s "$wf" ]]; then warns=$(grep -c . "$wf"); fi
+          problems=()
+          [[ "$JOB_STATUS" == success ]] || problems+=("job $JOB_STATUS")
+          [[ "$LINT" != failure ]] || problems+=("rules/*.yaml lint failed")
+          [[ -z "$HELD" ]] || problems+=("held back by the gate: $HELD")
+          (( warns == 0 )) || problems+=("$warns build.sh warning(s), previous files kept")
+          {
+            echo "### Result"
+            if (( ${#problems[@]} == 0 )); then echo "OK"; else printf -- '- %s\n' "${problems[@]}"; fi
+            if (( warns > 0 )); then echo; echo "#### build.sh warnings"; sed 's/^/- /' "$wf"; fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          if (( ${#problems[@]} == 0 )); then exit 0; fi
+          summary="$(printf '%s; ' "${problems[@]}")"
+          if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" ]]; then
+            curl -fsS --retry 3 --max-time 20 -o /dev/null \
+              --data-urlencode "chat_id=${TG_CHAT}" \
+              --data-urlencode "text=mihomo-rule-set (${GITHUB_EVENT_NAME}): ${summary}${RUN_URL}" \
+              "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" || echo "::warning::Telegram alert failed"
+          fi
+          echo "::error::${summary}"
+          exit 1
