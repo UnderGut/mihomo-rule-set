@@ -143,6 +143,8 @@ fi
 # --- MERGE GROUPS (consolidate N sources -> one .mrs) ---
 # Config: merge.list, lines "group,type,url[,exclude_regex]"
 #   type = list  (plain domain list, e.g. MetaCubeX *.list)
+#        | suffixlist (plain list whose bare "example.com" means the domain AND its
+#                      subdomains, e.g. Re-filter community.lst: written as "+.example.com")
 #        | yaml  (classical *.yaml, e.g. blackmatrix7: DOMAIN/DOMAIN-SUFFIX kept)
 #        | local* (file inside this repo; locallist = plain list, localyaml = classical yaml)
 #   exclude_regex = optional ERE; matching domains are dropped (e.g. typosquats)
@@ -232,7 +234,13 @@ if [[ -f "$MERGE_FILE" ]]; then
                   line ~ /^DOMAIN,/        { split(line,a,","); d=a[2]; gsub(/[[:space:]]/,"",d); if(d!="") print tolower(d); next }
                 ' "$tmpf" > "$extracted" || true
             else
-                awk 'NF && $0 !~ /^[[:space:]]*#/ { gsub(/[[:space:]]/,""); if($0!="") print tolower($0) }' "$tmpf" > "$extracted" || true
+                awk -v suffix="$([[ "$mtype" == *suffix* ]] && echo 1 || echo 0)" '
+                  NF && $0 !~ /^[[:space:]]*#/ {
+                    gsub(/[[:space:]]/,""); if ($0 == "") next
+                    d = tolower($0)
+                    if (suffix == 1 && d !~ /^(\+|\.)/) d = "+." d
+                    print d
+                  }' "$tmpf" > "$extracted" || true
             fi
             [[ ! -s "$extracted" ]] && { warn "$grp: no domains parsed from $murl"; grp_failed=1; continue; }
             bad=$(grep -cvE "$DOMAIN_RE" "$extracted" || true)
@@ -284,10 +292,13 @@ if [[ -f "$MERGE_FILE" ]]; then
 fi
 
 # --- IPCIDR GROUPS (IP lists -> one ipcidr .mrs) ---
-# Config: ip.list, lines "group,family,url[,min_entries]"
+# Config: ip.list, lines "group,family,url[,min_entries[,noratio]]"
 #   family      = v4: IPv4 CIDRs kept, IPv6 lines dropped (only v4 is implemented)
 #   url         = http(s) upstream (curl -f, retries) | local:<path inside this repo>
-#   min_entries = optional absolute floor, protects the very first build
+#   min_entries = optional absolute floor, protects the very first build; when set it
+#                 replaces IP_MIN_ENTRIES (a small curated list may be below 100)
+#   noratio     = optional: skip the ratio checks vs the previous build (a small curated
+#                 list grows/shrinks by tens of % legitimately); every other check stays
 # Output: rules/<group>.mrs (behavior ipcidr). Best-effort: never breaks the build.
 # A group is rebuilt only if
 #   - every source was fetched and EVERY line is a strict CIDR: IPv4 dotted quad
@@ -362,17 +373,22 @@ if [[ -f "$IP_FILE" ]]; then
     for grp in $ip_groups; do
         echo "IP group: $grp"
         combined="$TEMP_DIR/ip_${grp}_combined.txt"; : > "$combined"
-        grp_failed=0; floor="$IP_MIN_ENTRIES"
+        grp_failed=0; floor="$IP_MIN_ENTRIES"; floor_set=0; noratio=0
         n_src=0
         while IFS= read -r iline || [[ -n "$iline" ]]; do   # last line may lack a newline
             iline="${iline%$'\r'}"   # tolerate CRLF in ip.list
             [[ -z "${iline//[[:space:]]/}" || "$iline" =~ ^[[:space:]]*# ]] && continue
             # pure bash split, no xargs: a quote in the line must not abort build.sh (set -e)
-            IFS=',' read -r g fam iurl imin _ <<< "$iline" || true
-            g="${g//[[:space:]]/}"; fam="${fam//[[:space:]]/}"; iurl="${iurl//[[:space:]]/}"; imin="${imin//[[:space:]]/}"
+            IFS=',' read -r g fam iurl imin iopt _ <<< "$iline" || true
+            g="${g//[[:space:]]/}"; fam="${fam//[[:space:]]/}"; iurl="${iurl//[[:space:]]/}"; imin="${imin//[[:space:]]/}"; iopt="${iopt//[[:space:]]/}"
             [[ "$g" != "$grp" ]] && continue
             n_src=$((n_src + 1))
-            [[ "$imin" =~ ^[0-9]+$ && "$imin" -gt "$floor" ]] && floor="$imin"
+            # explicit min_entries replaces the default floor; several sources -> the largest one
+            if [[ "$imin" =~ ^[0-9]+$ ]]; then
+                if [[ "$floor_set" -eq 0 || "$imin" -gt "$floor" ]]; then floor="$imin"; fi
+                floor_set=1
+            fi
+            [[ "$iopt" == noratio ]] && noratio=1
             if [[ "$fam" != "v4" ]]; then warn "$grp: unsupported family '$fam'"; grp_failed=1; continue; fi
             raw="$TEMP_DIR/ip_${grp}_src${n_src}.txt"
             if [[ "$iurl" == local:* ]]; then
@@ -423,6 +439,10 @@ if [[ -f "$IP_FILE" ]]; then
         case " $IP_FORCE_GROUPS " in
             *" $grp "*) warn "$grp: IP_FORCE_GROUPS set, ratio checks vs previous ($prev / $prev_addrs) skipped"; prev=0; prev_addrs=0 ;;
         esac
+        if [[ "$noratio" -eq 1 && ( "$prev" -gt 0 || "$prev_addrs" -gt 0 ) ]]; then
+            echo "  ℹ $grp: noratio, previous build $prev prefixes / $prev_addrs addresses (not compared)"
+            prev=0; prev_addrs=0
+        fi
         if [[ "${count:-0}" -lt "$floor" ]]; then
             warn "$grp: only ${count:-0} prefixes (< $floor), kept previous $target"
         elif [[ "$addrs" -gt "$naive_addrs" ]]; then

@@ -1,5 +1,6 @@
 # merge groups: group,type,url[,exclude_regex]
 # type: list = plain domain list (MetaCubeX *.list) | yaml = blackmatrix7 classical (DOMAIN/DOMAIN-SUFFIX kept)
+#       suffixlist = plain list, bare "x.com" becomes "+.x.com" (domain + subdomains)
 #       locallist / localyaml = the same formats, file path inside this repo
 # exclude_regex: optional ERE; matching domains are dropped (e.g. typosquats)
 music,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/spotify.list
@@ -17,3 +18,8 @@ ai,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/google-
 games-mobile,localyaml,rules/games.yaml
 tiktok,list,https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/tiktok.list,(^|\.)(byteplusvod|tobsnssdk|bytepluscdn)\.com$
 tiktok,locallist,rules/tiktok-extra.list
+# Russia: blocked domains (Re-filter community, legiz category-ban-ru = RKN registry .ru/.su/.рф)
+# and white-list domains (legiz wld). Moved here from a manual upload, 2026-09-25.
+community,suffixlist,https://raw.githubusercontent.com/1andrevich/Re-filter-lists/main/community.lst
+category-ban-ru,list,https://raw.githubusercontent.com/legiz-ru/mihomo-rule-sets/main/other/category-ban-ru.list
+wld,list,https://raw.githubusercontent.com/legiz-ru/mihomo-rule-sets/main/other/wld.list

@@ -11,8 +11,9 @@ auto-compiled `.mrs`, all kept in a single `rules/` directory.
 ├── sources.list        # per-source upstreams (one domain list -> one .mrs)
 ├── merge.list          # merge groups (N domain sources -> one merged .mrs)
 ├── ip.list             # IP groups (IP lists -> one ipcidr .mrs)
-├── .github/workflows/  # generate-rules.yml (daily + on input changes), svg-to-png.yml
-├── .github/scripts/    # check-rules.sh (gate before publishing), check-yaml.sh (lint rules/*.yaml)
+├── .github/workflows/  # generate-rules.yml (daily + on input changes), ban-ru-onru.yml (weekly), svg-to-png.yml
+├── .github/scripts/    # check-rules.sh (gate before publishing), check-yaml.sh (lint rules/*.yaml),
+│                       # ban-ru-onru.py (category-ban-ru domains hosted on Russian IPs)
 ├── rules/              # rule-sets (BOTH hand-written sources and compiled .mrs)
 └── icon/               # proxy-group icons (svg + generated png)
 ```
@@ -25,8 +26,9 @@ hand-maintained files. Sources and compiled outputs live side by side.
 | `rules/*.yaml` (drop, games, in-direct, in-proxy, ru-inline) | classical | by hand |
 | `rules/tiktok-extra.list` | plain domain list, input of the `tiktok` merge group | by hand |
 | `rules/<name>_domain.mrs` (from `sources.list`) | domain | CI |
-| `rules/<group>.mrs` (from `merge.list`: ai, music, tiktok, games-mobile) | domain | CI |
-| `rules/<group>.mrs` (from `ip.list`: geoip-for-ru-v4) | ipcidr | CI |
+| `rules/<group>.mrs` (from `merge.list`: ai, music, tiktok, games-mobile, community, category-ban-ru, wld) | domain | CI |
+| `rules/<group>.mrs` (from `ip.list`: geoip-for-ru-v4, wl-ru-ip-v4) | ipcidr | CI |
+| `rules/category-ban-ru-onru.mrs` (from `ban-ru-onru.yml`) | domain | CI, weekly |
 
 `games-mobile.mrs` is the `DOMAIN`/`DOMAIN-SUFFIX` part of `rules/games.yaml`
 (for clients without `PROCESS-NAME` support). Output names are part of the
@@ -63,6 +65,8 @@ music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash
 ```
 
 - type `list` = plain domain list (MetaCubeX `.list`, `+.` notation kept)
+- type `suffixlist` = plain list where a bare `example.com` means the domain and its
+  subdomains (Re-filter `community.lst`): written as `+.example.com`
 - type `yaml` = classical `.yaml` (blackmatrix7): `DOMAIN`/`DOMAIN-SUFFIX` kept, rest dropped
 - type `locallist` / `localyaml` = the same formats, read from a file in this repo
   (e.g. `tiktok,locallist,rules/tiktok-extra.list` adds hosts missing upstream)
@@ -71,7 +75,7 @@ music,yaml,https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash
 
 ## Add an IP group (IP lists -> one ipcidr .mrs)
 
-Append to `ip.list` — `group,family,url[,min_entries]`:
+Append to `ip.list` — `group,family,url[,min_entries[,noratio]]`:
 
 ```
 geoip-for-ru-v4,v4,https://raw.githubusercontent.com/Davoyan/mihomo-rule-sets/main/ip-for-ru/lists/ips-for-ru.txt,10000
@@ -79,8 +83,22 @@ geoip-for-ru-v4,v4,https://raw.githubusercontent.com/Davoyan/mihomo-rule-sets/ma
 
 - family `v4` = IPv4 CIDRs kept, IPv6 lines dropped (the only family implemented)
 - url = `http(s)://…` or `local:<path in this repo>`
-- `min_entries` (optional) = absolute floor, protects the very first build
+- `min_entries` (optional) = absolute floor, protects the very first build; replaces the
+  default 100 (a small curated list such as `wl-ru-ip-v4` has ~90 prefixes)
+- `noratio` (optional) = skip the ratio checks against the previous build (a small
+  curated list grows or shrinks by tens of percent legitimately); other checks stay
 - output: `rules/<group>.mrs` (behavior `ipcidr`)
+
+## category-ban-ru-onru (weekly)
+
+`category-ban-ru` (RKN registry, ~23k `.ru`/`.su`/`.рф` domains) changes routing only for
+domains that would otherwise hit a DIRECT rule: unmatched traffic already goes to the proxy,
+and a domain on a foreign IP never matches `geoip-for-ru`. `ban-ru-onru.yml` resolves every
+entry over DNS-over-HTTPS (Cloudflare, Google as fallback) and keeps only those with an A
+record inside `geoip-for-ru-v4` — about 12% of the list (a third no longer resolves at all).
+Use it instead of the full list where memory matters (iOS). Guards: ≥90% of lookups answered,
+200..15000 entries, no shrink below 60% of the previous build; lookups that fail keep their
+previous verdict.
 
 ## Safety: when an output is NOT updated
 
