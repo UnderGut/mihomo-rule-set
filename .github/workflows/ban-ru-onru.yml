@@ -7,6 +7,12 @@ on:
   schedule:
     # Monday 08:23 UTC: after the daily "Generate mihomo Rules" (07:17 UTC) refreshed inputs.
     - cron: '23 8 * * 1'
+  # after every successful "Generate mihomo Rules": rebuilds only when the slim file is missing
+  # or rules/category-ban-ru.mrs changed after it (see the "Decide" step)
+  workflow_run:
+    workflows: ["Generate mihomo Rules"]
+    types: [completed]
+    branches: [main]
   push:
     branches: [main]
     paths:
@@ -29,6 +35,7 @@ env:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -40,8 +47,23 @@ jobs:
         with:
           ref: ${{ github.ref }}
           persist-credentials: false
+          fetch-depth: 200             # "Decide" compares commit times of the two files
+
+      - name: Decide
+        id: need
+        run: |
+          set -euo pipefail
+          run=1
+          if [[ "${{ github.event_name }}" == workflow_run && -f rules/category-ban-ru-onru.mrs ]]; then
+            src=$(git log -1 --format=%ct -- rules/category-ban-ru.mrs)
+            out=$(git log -1 --format=%ct -- rules/category-ban-ru-onru.mrs)
+            [[ -n "$src" && -n "$out" && "$src" -le "$out" ]] && run=0
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "rebuild: $run (event ${{ github.event_name }})" | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Install mihomo ${{ env.MIHOMO_VERSION }}
+        if: steps.need.outputs.run == '1'
         run: |
           set -euo pipefail
           asset="mihomo-linux-amd64-compatible-${MIHOMO_VERSION}.gz"
@@ -55,19 +77,25 @@ jobs:
           echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
       - name: Resolve and build
+        if: steps.need.outputs.run == '1'
         run: python3 .github/scripts/ban-ru-onru.py
 
       - name: Check rule sets before publishing
+        if: steps.need.outputs.run == '1'
         env:
           MIN_RATIO: '60'
         run: bash .github/scripts/check-rules.sh
 
       - name: Commit and push
-        if: github.ref == 'refs/heads/main'
+        if: steps.need.outputs.run == '1' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          if [[ ! -f rules/category-ban-ru-onru.mrs ]]; then
+            echo "Nothing built" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           git add -- rules/category-ban-ru-onru.mrs
           if git diff --cached --quiet; then
             echo "No changes in rules/category-ban-ru-onru.mrs" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -89,7 +89,7 @@ geoip-for-ru-v4,v4,https://raw.githubusercontent.com/Davoyan/mihomo-rule-sets/ma
   curated list grows or shrinks by tens of percent legitimately); other checks stay
 - output: `rules/<group>.mrs` (behavior `ipcidr`)
 
-## category-ban-ru-onru (weekly)
+## category-ban-ru-onru (weekly + after a Generate run that changed category-ban-ru.mrs)
 
 `category-ban-ru` (RKN registry, ~23k `.ru`/`.su`/`.рф` domains) changes routing only for
 domains that would otherwise hit a DIRECT rule: unmatched traffic already goes to the proxy,
